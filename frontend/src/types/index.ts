@@ -9,9 +9,29 @@ export interface User {
   roles: Role[];
   status: UserStatus;
   studentId?: string;
+  branchId?: string;
+  semester?: number;
   emailVerifiedAt?: string;
   universityId: string;
   universityName?: string;
+}
+
+export interface Subject {
+  name: string;
+  credits: number;
+}
+
+export interface SemesterInfo {
+  semester: number;
+  subjects: Subject[];
+}
+
+export interface BranchInfo {
+  id: string;
+  name: string;
+  shortName: string;
+  creditSheetUrl: string;
+  semesters: SemesterInfo[];
 }
 
 export interface ApiErrorResponse {
