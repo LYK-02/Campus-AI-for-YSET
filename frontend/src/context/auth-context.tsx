@@ -1,12 +1,13 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import type { User } from "../types";
-import { apiRequest } from "../lib/api-client";
+import { apiRequest, setAccessToken } from "../lib/api-client";
 
 interface AuthContextType {
   user: User | null;
   isLoading: boolean;
   isAuthenticated: boolean;
   setUser: (user: User | null) => void;
+  login: (credentials: { email: string; password: string }) => Promise<User>;
   checkAuth: () => Promise<void>;
   logout: () => Promise<void>;
 }
@@ -20,13 +21,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const checkAuth = useCallback(async () => {
     try {
       setIsLoading(true);
+      // If we don't have an in-memory token, see if refresh cookie can get us one
       const res = await apiRequest<{ user: User }>("/auth/me");
       setUser(res.user);
     } catch {
       setUser(null);
+      setAccessToken(null);
     } finally {
       setIsLoading(false);
     }
+  }, []);
+
+  const login = useCallback(async (credentials: { email: string; password: string }) => {
+    const res = await apiRequest<{ accessToken: string; user: User }>("/auth/login", {
+      method: "POST",
+      body: JSON.stringify(credentials),
+    });
+
+    setAccessToken(res.accessToken);
+    setUser(res.user);
+    return res.user;
   }, []);
 
   const logout = useCallback(async () => {
@@ -35,6 +49,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch (err) {
       console.error("Logout error:", err);
     } finally {
+      setAccessToken(null);
       setUser(null);
       window.location.href = "/login";
     }
@@ -51,6 +66,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isLoading,
         isAuthenticated: !!user,
         setUser,
+        login,
         checkAuth,
         logout,
       }}
