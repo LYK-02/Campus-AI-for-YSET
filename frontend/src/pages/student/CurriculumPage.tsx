@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BookOpen, ExternalLink, Award, FileText, CheckCircle2, ShieldCheck, Loader2 } from "lucide-react";
+import { ExternalLink, Award, FileText, CheckCircle2, Loader2 } from "lucide-react";
 import { branches } from "../../data/branches";
 import { coursesApi } from "../../lib/api-client";
 import type { Course } from "../../types";
@@ -158,31 +158,40 @@ export const CurriculumPage: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E3E8F0]">
-              {displaySubjects.map((sub, index) => (
-                <tr key={index} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="py-3.5 px-4 font-mono text-slate-400">{index + 1}</td>
-                  <td className="py-3.5 px-4">
-                    <div className="flex items-center gap-2.5">
-                      <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-[#315EAA]/10 text-[#315EAA]">
-                        {sub.code}
-                      </span>
-                      <span className="font-semibold text-[#172033] text-sm">
-                        {sub.name}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="py-3.5 px-4 text-center">
-                    <span className="inline-block px-2.5 py-1 rounded-md bg-[#315EAA]/10 text-[#315EAA] font-bold font-mono">
-                      {sub.credits} {sub.credits === 1 ? "Credit" : "Credits"}
-                    </span>
-                  </td>
-                  <td className="py-3.5 px-4 text-right">
-                    <span className="text-[11px] text-slate-500 font-medium">
-                      {sub.credits >= 4 ? "Core Course" : sub.credits === 1 ? "Lab / Skill" : "Departmental"}
-                    </span>
+              {isLoading ? (
+                <tr>
+                  <td colSpan={4} className="py-8 text-center text-slate-500">
+                    <Loader2 className="w-5 h-5 animate-spin text-[#315EAA] mx-auto mb-2" />
+                    <span>Loading verified curriculum courses...</span>
                   </td>
                 </tr>
-              ))}
+              ) : (
+                displaySubjects.map((sub, index) => (
+                  <tr key={index} className="hover:bg-slate-50/80 transition-colors">
+                    <td className="py-3.5 px-4 font-mono text-slate-400">{index + 1}</td>
+                    <td className="py-3.5 px-4">
+                      <div className="flex items-center gap-2.5">
+                        <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-[#315EAA]/10 text-[#315EAA]">
+                          {sub.code}
+                        </span>
+                        <span className="font-semibold text-[#172033] text-sm">
+                          {sub.name}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="py-3.5 px-4 text-center">
+                      <span className="inline-block px-2.5 py-1 rounded-md bg-[#315EAA]/10 text-[#315EAA] font-bold font-mono">
+                        {sub.credits} {sub.credits === 1 ? "Credit" : "Credits"}
+                      </span>
+                    </td>
+                    <td className="py-3.5 px-4 text-right">
+                      <span className="text-[11px] text-slate-500 font-medium">
+                        {sub.credits >= 4 ? "Core Course" : sub.credits === 1 ? "Lab / Skill" : "Departmental"}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
