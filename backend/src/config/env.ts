@@ -9,7 +9,7 @@ const envSchema = z.object({
   API_PREFIX: z.string().default("/api/v1"),
   CLIENT_ORIGIN: z.string().default("http://localhost:5173"),
   DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),
-  INSTITUTION_DOMAIN: z.string().default("yenepoy.edu.in"),
+  INSTITUTION_DOMAIN: z.string().default("yenepoya.edu.in"),
   JWT_ACCESS_SECRET: z.string().min(16, "JWT_ACCESS_SECRET must be at least 16 characters"),
   JWT_ACCESS_EXPIRES_IN: z.string().default("15m"),
   JWT_REFRESH_SECRET: z.string().min(16, "JWT_REFRESH_SECRET must be at least 16 characters"),
