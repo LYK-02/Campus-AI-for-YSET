@@ -3,13 +3,9 @@ import {
   Calendar,
   Clock,
   MapPin,
-  BookOpen,
   Printer,
-  ChevronRight,
-  Sparkles,
   Info,
   Loader2,
-  CheckCircle2,
 } from "lucide-react";
 import { branches } from "../../data/branches";
 import { timetableApi } from "../../lib/api-client";
