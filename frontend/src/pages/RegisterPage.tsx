@@ -3,10 +3,14 @@ import { Link } from "react-router-dom";
 import { Mail, Lock, User, Hash, CheckCircle2, AlertCircle } from "lucide-react";
 import { apiRequest } from "../lib/api-client";
 
+import { branches } from "../data/branches";
+
 export const RegisterPage: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [studentId, setStudentId] = useState("");
+  const [branchId, setBranchId] = useState("cse-aift");
+  const [semester, setSemester] = useState(1);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -44,6 +48,8 @@ export const RegisterPage: React.FC = () => {
           name,
           email,
           studentId: studentId.trim() || undefined,
+          branchId,
+          semester,
           password,
         }),
       });
@@ -168,6 +174,42 @@ export const RegisterPage: React.FC = () => {
                     onChange={(e) => setStudentId(e.target.value)}
                     className="w-full pl-10 pr-3.5 py-2.5 rounded-lg border border-[#E3E8F0] text-sm focus:outline-none focus:ring-2 focus:ring-[#315EAA]/30 focus:border-[#315EAA] bg-white"
                   />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-[#172033] mb-1.5">
+                    Engineering Branch
+                  </label>
+                  <select
+                    value={branchId}
+                    onChange={(e) => setBranchId(e.target.value)}
+                    className="w-full px-3 py-2.5 rounded-lg border border-[#E3E8F0] text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#315EAA]/30 focus:border-[#315EAA] bg-white text-[#172033]"
+                  >
+                    {branches.map((b) => (
+                      <option key={b.id} value={b.id}>
+                        {b.shortName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-[#172033] mb-1.5">
+                    Current Semester
+                  </label>
+                  <select
+                    value={semester}
+                    onChange={(e) => setSemester(Number(e.target.value))}
+                    className="w-full px-3 py-2.5 rounded-lg border border-[#E3E8F0] text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#315EAA]/30 focus:border-[#315EAA] bg-white text-[#172033]"
+                  >
+                    {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
+                      <option key={sem} value={sem}>
+                        Semester {sem}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
