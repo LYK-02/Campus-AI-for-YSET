@@ -8,6 +8,7 @@ import { requestIdMiddleware } from "./middleware/request-id.js";
 import { notFoundHandler } from "./middleware/not-found.js";
 import { errorHandler } from "./middleware/error-handler.js";
 import { healthRouter } from "./modules/health/health.router.js";
+import { authRouter } from "./modules/auth/auth.router.js";
 
 export const app = express();
 
@@ -46,6 +47,7 @@ app.get("/", (_req, res) => {
 
 // API v1 routes
 app.use(`${env.API_PREFIX}/health`, healthRouter);
+app.use(`${env.API_PREFIX}/auth`, authRouter);
 
 // 404 & Error handlers
 app.use(notFoundHandler);
