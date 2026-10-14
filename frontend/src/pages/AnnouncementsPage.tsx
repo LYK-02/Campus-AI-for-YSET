@@ -115,14 +115,11 @@ export const AnnouncementsPage: React.FC = () => {
       {/* Header */}
       <div className="bg-white rounded-2xl border border-[#E3E8F0] p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#315EAA] mb-1">
-            <Bell className="w-4 h-4" />
-            <span>Campus Communication & Notices</span>
-          </div>
-          <h1 className="text-2xl font-bold text-[#142B4A]">
-            Announcements & Circulars
+          <h1 className="text-2xl font-bold text-[#142B4A] flex items-center gap-2.5">
+            <Bell className="w-6 h-6 text-[#315EAA]" />
+            <span>Announcements & Circulars</span>
           </h1>
-          <p className="text-sm text-slate-500 mt-0.5">
+          <p className="text-sm text-slate-500 mt-1">
             Stay informed with verified institutional circulars, exam dates, and course-specific notifications.
           </p>
         </div>
