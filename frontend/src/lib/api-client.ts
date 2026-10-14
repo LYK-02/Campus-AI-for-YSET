@@ -18,12 +18,36 @@ export class ApiError extends Error {
 
 const BASE_URL = "/api/v1";
 
+let currentAccessToken: string | null = localStorage.getItem("yset_access_token");
+
+export function setAccessToken(token: string | null) {
+  currentAccessToken = token;
+  if (token) {
+    localStorage.setItem("yset_access_token", token);
+  } else {
+    localStorage.removeItem("yset_access_token");
+  }
+}
+
+export function getAccessToken(): string | null {
+  return currentAccessToken;
+}
+
 interface RequestOptions extends RequestInit {
   params?: Record<string, string | number | boolean | undefined>;
+  skipAuth?: boolean;
+}
+
+let isRefreshing = false;
+let refreshSubscribers: Array<(token: string) => void> = [];
+
+function onRefreshed(token: string) {
+  refreshSubscribers.forEach((callback) => callback(token));
+  refreshSubscribers = [];
 }
 
 export async function apiRequest<T = any>(endpoint: string, options: RequestOptions = {}): Promise<T> {
-  const { params, headers, ...customConfig } = options;
+  const { params, headers, skipAuth, ...customConfig } = options;
 
   let url = `${BASE_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
 
@@ -40,16 +64,72 @@ export async function apiRequest<T = any>(endpoint: string, options: RequestOpti
     }
   }
 
+  const reqHeaders: Record<string, string> = {
+    "Content-Type": "application/json",
+    ...(headers as Record<string, string>),
+  };
+
+  if (!skipAuth && currentAccessToken) {
+    reqHeaders["Authorization"] = `Bearer ${currentAccessToken}`;
+  }
+
   const config: RequestInit = {
     ...customConfig,
     credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-      ...headers,
-    },
+    headers: reqHeaders,
   };
 
   const response = await fetch(url, config);
+
+  // If 401 and not an auth attempt itself, try silent refresh
+  if (response.status === 401 && !endpoint.includes("/auth/login") && !endpoint.includes("/auth/refresh")) {
+    if (!isRefreshing) {
+      isRefreshing = true;
+      try {
+        const refreshRes = await fetch(`${BASE_URL}/auth/refresh`, {
+          method: "POST",
+          credentials: "include",
+        });
+
+        if (refreshRes.ok) {
+          const refreshData = await refreshRes.json();
+          setAccessToken(refreshData.accessToken);
+          onRefreshed(refreshData.accessToken);
+          isRefreshing = false;
+
+          // Retry original request with new token
+          reqHeaders["Authorization"] = `Bearer ${refreshData.accessToken}`;
+          const retryRes = await fetch(url, { ...config, headers: reqHeaders });
+          if (!retryRes.ok) {
+            const errData = await retryRes.json().catch(() => ({}));
+            throw new ApiError(retryRes.status, errData.error || { message: retryRes.statusText, code: "HTTP_ERROR" });
+          }
+          const retryJson = await retryRes.json().catch(() => ({}));
+          return (retryJson.data !== undefined ? retryJson.data : retryJson) as T;
+        } else {
+          setAccessToken(null);
+          isRefreshing = false;
+        }
+      } catch {
+        setAccessToken(null);
+        isRefreshing = false;
+      }
+    } else {
+      // Queue request until token refresh completes
+      return new Promise<T>((resolve, reject) => {
+        refreshSubscribers.push(async (token: string) => {
+          try {
+            reqHeaders["Authorization"] = `Bearer ${token}`;
+            const retryRes = await fetch(url, { ...config, headers: reqHeaders });
+            const retryJson = await retryRes.json().catch(() => ({}));
+            resolve((retryJson.data !== undefined ? retryJson.data : retryJson) as T);
+          } catch (err) {
+            reject(err);
+          }
+        });
+      });
+    }
+  }
 
   // If 204 No Content
   if (response.status === 204) {
