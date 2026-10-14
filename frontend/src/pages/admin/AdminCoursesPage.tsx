@@ -9,9 +9,7 @@ import {
   AlertTriangle,
   RotateCcw,
   Loader2,
-  Clock,
   MapPin,
-  Layers,
   GraduationCap,
 } from "lucide-react";
 import { branches } from "../../data/branches";
