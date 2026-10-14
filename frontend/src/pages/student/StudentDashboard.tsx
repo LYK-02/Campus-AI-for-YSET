@@ -79,15 +79,20 @@ export const StudentDashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-[#E3E8F0] shadow-xs flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-[#D99019]/10 text-[#D99019] flex items-center justify-center shrink-0">
-            <CheckSquare className="w-6 h-6" />
+        <Link
+          to="/student/assignments"
+          className="bg-white p-5 rounded-2xl border border-[#E3E8F0] hover:border-[#D99019] shadow-xs flex items-center gap-4 transition-all block"
+        >
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-[#D99019]/10 text-[#D99019] flex items-center justify-center shrink-0">
+              <CheckSquare className="w-6 h-6" />
+            </div>
+            <div>
+              <p className="text-xs text-[#68758A] font-medium">Active Coursework</p>
+              <h3 className="text-xl font-bold text-[#172033]">Assignments</h3>
+            </div>
           </div>
-          <div>
-            <p className="text-xs text-[#68758A] font-medium">Pending Tasks</p>
-            <h3 className="text-xl font-bold text-[#172033]">3</h3>
-          </div>
-        </div>
+        </Link>
 
         <div className="bg-white p-5 rounded-2xl border border-[#E3E8F0] shadow-xs flex items-center gap-4">
           <div className="w-12 h-12 rounded-xl bg-[#16845B]/10 text-[#16845B] flex items-center justify-center shrink-0">
@@ -147,6 +152,9 @@ export const StudentDashboard: React.FC = () => {
                 <Bell className="w-4 h-4 text-[#D99019]" />
                 Recent Announcements
               </h2>
+              <Link to="/student/announcements" className="text-xs font-semibold text-[#315EAA] hover:underline flex items-center gap-1">
+                View all <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
             <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
               <span className="text-[11px] font-semibold text-[#142B4A] uppercase tracking-wider">YSET Academic Dean</span>
