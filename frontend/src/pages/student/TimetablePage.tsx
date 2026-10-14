@@ -89,15 +89,12 @@ export const TimetablePage: React.FC = () => {
       {/* Header */}
       <div className="bg-white rounded-2xl border border-[#E3E8F0] p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#315EAA] mb-1">
-            <Calendar className="w-4 h-4" />
-            <span>Academic Schedule & Room Locations</span>
-          </div>
-          <h1 className="text-2xl font-bold text-[#142B4A]">
-            Student Timetable
+          <h1 className="text-2xl font-bold text-[#142B4A] flex items-center gap-2.5">
+            <Calendar className="w-6 h-6 text-[#315EAA]" />
+            <span>Student Timetable</span>
           </h1>
-          <p className="text-sm text-slate-500 mt-0.5">
-            Official 5-day class schedule verified and released by YSET Academic Affairs.
+          <p className="text-sm text-slate-500 mt-1">
+            Official 5-day class schedule and room locations verified and released by YSET Academic Affairs.
           </p>
         </div>
 
@@ -275,8 +272,8 @@ export const TimetablePage: React.FC = () => {
                               <span className="font-bold text-xs uppercase text-slate-500 tracking-wider">
                                 Period {period.number}
                               </span>
-                              <div className="flex items-center gap-1.5 text-xs text-slate-600 bg-white border border-slate-200 px-2 py-0.5 rounded-md font-mono">
-                                <Clock className="w-3 h-3 text-slate-400" />
+                              <div className="flex items-center gap-1.5 text-xs text-slate-700 bg-white border border-slate-200 px-2 py-0.5 rounded-md tabular-nums font-medium">
+                                <Clock className="w-3 h-3 text-slate-500" />
                                 <span>{period.time}</span>
                               </div>
                             </div>
