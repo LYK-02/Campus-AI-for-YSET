@@ -30,7 +30,7 @@ flowchart TD
     C --> E{Choose permitted action}
     E -- Login --> F[Validate credentials]
     E -- Student sign up --> G[Validate email and registration data]
-    G --> H{Email domain is yenepoy.edu.in?}
+    G --> H{Email domain is yenepoya.edu.in?}
     H -- No --> I[Show validation error]
     H -- Yes --> J[Create pending student account]
     J --> K[Send verification email]
@@ -55,7 +55,7 @@ flowchart TD
 
 ### Authentication policy
 
-- Student self-registration requires the exact email domain `@yenepoy.edu.in`, validated on the server after normalization.
+- Student self-registration requires the exact email domain `@yenepoya.edu.in`, validated on the server after normalization.
 - Domain validation must compare the complete email domain, not use a substring check.
 - Email verification proves access to the mailbox; it does not independently prove enrollment if the university requires roster verification.
 - Faculty and admin accounts are created through approved invitation/provisioning workflows. Do not expose public role selection.
@@ -380,7 +380,7 @@ Do not show fake counts, fake grades, fabricated AI citations, or fake system-he
 
 Before release, verify at minimum:
 
-- [ ] A non-`yenepoy.edu.in` email cannot self-register.
+- [ ] A non-`yenepoya.edu.in` email cannot self-register.
 - [ ] Domain checks reject lookalike domains and malformed addresses.
 - [ ] Students cannot select or assign themselves faculty/admin roles.
 - [ ] Unverified, suspended, and disabled accounts cannot use protected features.
