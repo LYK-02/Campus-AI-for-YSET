@@ -14,14 +14,14 @@ export const RegisterPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  const isEmailValidDomain = email.trim().toLowerCase().endsWith("@yenepoy.edu.in");
+  const isEmailValidDomain = email.trim().toLowerCase().endsWith("@yenepoya.edu.in");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
     if (!isEmailValidDomain) {
-      setError("Registration is restricted to the institutional domain: @yenepoy.edu.in");
+      setError("Registration is restricted to the institutional domain: @yenepoya.edu.in");
       return;
     }
 
@@ -106,7 +106,7 @@ export const RegisterPage: React.FC = () => {
               <AlertCircle className="w-4 h-4 text-[#315EAA] shrink-0 mt-0.5" />
               <p className="text-xs text-[#315EAA] leading-relaxed">
                 <strong>Policy Requirement:</strong> Self-registration requires an institutional email ending in{" "}
-                <code className="font-bold">@yenepoy.edu.in</code>. Faculty and staff accounts are provisioned via administrative invitation.
+                <code className="font-bold">@yenepoya.edu.in</code>. Faculty and staff accounts are provisioned via administrative invitation.
               </p>
             </div>
 
@@ -143,7 +143,7 @@ export const RegisterPage: React.FC = () => {
                   <input
                     type="email"
                     required
-                    placeholder="student@yenepoy.edu.in"
+                    placeholder="student@yenepoya.edu.in"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className={`w-full pl-10 pr-3.5 py-2.5 rounded-lg border text-sm focus:outline-none focus:ring-2 transition-all bg-white ${
@@ -155,7 +155,7 @@ export const RegisterPage: React.FC = () => {
                 </div>
                 {email.length > 0 && !isEmailValidDomain && (
                   <p className="text-[11px] text-red-600 mt-1">
-                    Must end with @yenepoy.edu.in
+                    Must end with @yenepoya.edu.in
                   </p>
                 )}
               </div>
