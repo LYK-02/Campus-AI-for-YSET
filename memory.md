@@ -67,6 +67,14 @@
   - `FacultyDashboard.tsx`: Course assignments, submission review queue, and quick actions.
   - `AdminDashboard.tsx`: Institutional overview, user directory, knowledge base, and audit logs.
   - `AIChatPage.tsx`: Assistant UI supporting all 4 modes (`GENERAL`, `MY_COURSES`, `MY_DOCUMENTS`, `UNIVERSITY_KNOWLEDGE`) with citation card previews.
+- **Branding & Model Attribution Polish**:
+  - Replaced "Campus AI" with "YSET" across frontend navigation, headers, titles, and greetings.
+  - Removed all user-facing references to "NVIDIA NIM Nemotron" and "NVIDIA NIM Nemotron contextual academic reasoning".
+- **Official YSET Curriculum & Credit Sheets**:
+  - Added official curriculum data for 4 B.Tech CSE branches across 8 semesters (`cse-aift`, `cse-aiml`, `cse-cs`, `cse-ds`) in `frontend/src/data/branches.ts` and `backend/src/data/branches.ts`.
+  - Added interactive syllabus browser in `frontend/src/pages/student/CurriculumPage.tsx` with branch switcher, semester tabs (1–8), credit counts, and official PDF links.
+  - Connected `StudentDashboard.tsx` to dynamically display the student's active branch, semester subjects, and credit weightage.
+  - Added branch and semester selectors to `RegisterPage.tsx`.
 - **Validation**: Full build passed (`npm run build` -> 0 errors), dev server live test on port 5173 confirmed (HTTP 200).
 
 ---
