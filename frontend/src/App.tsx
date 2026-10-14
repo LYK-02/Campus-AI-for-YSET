@@ -10,6 +10,7 @@ import { FacultyDashboard } from "./pages/faculty/FacultyDashboard";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
 import { AIChatPage } from "./pages/ai/AIChatPage";
 import { CurriculumPage } from "./pages/student/CurriculumPage";
+import { VerifyEmailPage } from "./pages/VerifyEmailPage";
 
 export const App: React.FC = () => {
   return (
@@ -20,6 +21,7 @@ export const App: React.FC = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<RegisterPage />} />
+          <Route path="/verify-email" element={<VerifyEmailPage />} />
 
           {/* App Shell with Role Workspaces */}
           <Route element={<AppLayout />}>
