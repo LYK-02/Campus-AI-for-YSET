@@ -56,10 +56,6 @@ export const LoginPage: React.FC = () => {
         </div>
 
         <div className="relative z-10 max-w-md my-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#17A89B]/20 text-[#17A89B] text-xs font-semibold mb-6">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Academic Intelligence Platform</span>
-          </div>
           <h2 className="text-3xl font-bold tracking-tight text-white mb-4 leading-snug">
             Empowering Learning & Research at YSET
           </h2>
