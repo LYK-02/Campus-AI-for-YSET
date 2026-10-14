@@ -73,7 +73,7 @@ export const LandingPage: React.FC = () => {
             </div>
             <h3 className="font-bold text-base text-[#172033] mb-2">Institutional Scope</h3>
             <p className="text-xs text-[#68758A] leading-relaxed">
-              Strict domain enforcement on <code className="text-[#142B4A] font-semibold">@yenepoy.edu.in</code> ensuring authentic access for verified YSET community members.
+              Strict domain enforcement on <code className="text-[#142B4A] font-semibold">@yenepoya.edu.in</code> ensuring authentic access for verified YSET community members.
             </p>
           </div>
 
