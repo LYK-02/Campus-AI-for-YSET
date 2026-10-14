@@ -2,7 +2,7 @@
 
 **Institution:** Yenepoya School of Technology (YSET)  
 **Accepted Domain:** `yenepoya.edu.in`  
-**Current Phase:** Phase 1 Complete → Ready for Phase 2 (Authentication & Access Control)  
+**Current Phase:** Phase 1, 2, 3, 4 Complete & Polished (`feat/phase-4-faculty-student-workflows`) → Ready for Phase 5 (Vector Embeddings & RAG Ingestion)  
 **Last Updated:** 2026-10-14  
 
 ---
@@ -16,14 +16,14 @@
 | **Domain Policy** | Exact suffix `@yenepoya.edu.in` enforced on the server. Self-registration is strictly for `STUDENT` role with mandatory Roll ID; faculty and admins are provisioned/invited. | `docs/01_PRD.md` |
 | **AI Engine Adapter** | NVIDIA NIM (Nemotron 3 Ultra / `nvidia/llama-3.1-nemotron-70b-instruct`) using OpenAI-compatible REST adapter (`https://integrate.api.nvidia.com/v1`). | `docs/07_AI_ASSISTANT.md` |
 | **Database & ORM** | PostgreSQL (running locally on port 5432) with Prisma ORM v6. | `docs/03_DATABASE_SCHEMA.md` |
-| **Frontend Design** | React + Vite + TypeScript + Tailwind CSS v4 with YSET brand design tokens. | `docs/DESIGN.md` |
+| **Frontend Design** | React + Vite + TypeScript + Tailwind CSS v4 with YSET brand design tokens. Adheres strictly to `impeccable` craft floor rules (no gradient text, no eyebrow kickers, high contrast, browser surface theming). | `docs/DESIGN.md`, `craft-floor.md` |
 
 ---
 
 ## 2. Completed Foundation Deliverables (Phase 1)
 
 ### Repository Root
-- `.gitignore`: Comprehensive ignore rules preventing `node_modules/`, `.env`, build artifacts (`dist/`), and caches from entering Git.
+- `.gitignore`: Comprehensive ignore rules preventing `node_modules/`, `.env`, build artifacts (`dist/`), `uploads/`, and temporary caches from entering Git.
 - `README.md`: Central documentation linking to all 16 specification files in `docs/`.
 
 ### Backend (`backend/`)
@@ -37,7 +37,7 @@
 - **Health Check**: `GET /api/v1/health` returning uptime, timestamp, and database connectivity.
 - **Database Schema**: `prisma/schema.prisma` containing all required models:
   - `University`, `User`, `UserRole`, `AuthSession`, `VerificationToken`, `PasswordResetToken`
-  - `Department`, `Course`, `Enrollment`, `TeachingAssignment`
+  - `Department`, `Course`, `Enrollment`, `TeachingAssignment`, `TimetableSlot`
   - `Material`, `DocumentChunk`, `Chat`, `Message`
   - `Assignment`, `Submission`, `Announcement`, `AuditLog`, `AIUsageLog`
 - **Validation**: Prisma client generated (`prisma generate`), TypeScript compile verified (`tsc`), and live HTTP 200 response confirmed.
@@ -53,28 +53,14 @@
   - Text Primary: `#172033`
   - Text Secondary: `#68758A`
   - Border: `#E3E8F0`
-- **API Client**: `src/lib/api-client.ts` with automatic credential inclusion and `/api/v1` prefix.
+- **Browser Surfaces & Typography**:
+  - Inter & JetBrains Mono web fonts imported.
+  - Custom `::selection` highlighting with institutional teal tint.
+  - Sleek custom webkit scrollbars and `:focus-visible` accessible rings.
+  - Tabular numeric alignment (`tabular-nums`) for academic data, credits, and timetables.
+- **API Client**: `src/lib/api-client.ts` with automatic credential inclusion, token refresh interceptor, and `/api/v1` prefix.
 - **Session State**: `src/context/auth-context.tsx` managing user profile and `/auth/me` checks.
-- **Shared App Shell**: `src/components/layout/AppLayout.tsx` featuring:
-  - YSET sidebar navigation with role-specific items (`STUDENT`, `FACULTY`, `ADMIN`)
-  - Topbar with breadcrumbs, role badge, notifications, and quick "Ask Campus AI" action
-  - Responsive mobile drawer navigation
-- **Core Views**:
-  - `LandingPage.tsx`: Institutional portal overview with feature cards and action CTAs.
-  - `LoginPage.tsx`: Split-screen branded login matching `docs/DESIGN.md` §4.1.
-  - `RegisterPage.tsx`: Student self-registration with `@yenepoya.edu.in` domain check and mandatory Roll ID. Branch and semester course enrollment are assigned post-verification by the administrator.
-  - `StudentDashboard.tsx`: Enrolled courses, task deadlines, and AI study cards.
-  - `FacultyDashboard.tsx`: Course assignments, submission review queue, and quick actions.
-  - `AdminDashboard.tsx`: Institutional overview, user directory, knowledge base, and audit logs.
-  - `AIChatPage.tsx`: Assistant UI supporting all 4 modes (`GENERAL`, `MY_COURSES`, `MY_DOCUMENTS`, `UNIVERSITY_KNOWLEDGE`) with citation card previews.
-- **Branding & Model Attribution Polish**:
-  - Replaced "Campus AI" with "YSET" across frontend navigation, headers, titles, and greetings.
-  - Removed all user-facing references to "NVIDIA NIM Nemotron" and "NVIDIA NIM Nemotron contextual academic reasoning".
-- **Official YSET Curriculum & Credit Sheets**:
-  - Added official curriculum data for 4 B.Tech CSE branches across 8 semesters (`cse-aift`, `cse-aiml`, `cse-cs`, `cse-ds`) in `frontend/src/data/branches.ts` and `backend/src/data/branches.ts`.
-  - Added interactive syllabus browser in `frontend/src/pages/student/CurriculumPage.tsx` with branch switcher, semester tabs (1–8), credit counts, and official PDF links.
-  - Connected `StudentDashboard.tsx` to dynamically display the student's active branch, semester subjects, and credit weightage.
-- **Validation**: Full build passed (`npm run build` -> 0 errors), dev server live test on port 5173 confirmed (HTTP 200).
+- **Shared App Shell**: `src/components/layout/AppLayout.tsx` featuring YSET responsive sidebar navigation with role-specific items (`STUDENT`, `FACULTY`, `ADMIN`).
 
 ---
 
@@ -82,7 +68,6 @@
 
 ### Database Migration & Seeding
 - **PostgreSQL 18**: Migration `0_init_yset_schema` successfully applied to database `campus_ai`.
-- **Prisma Client**: Generated v6.19.3.
 - **Institutional Seeder (`backend/prisma/seed.ts`)**:
   - University: `Yenepoya School of Technology` (`yenepoya.edu.in`)
   - Department: `Computer Science & Engineering` (`CSE`)
@@ -100,23 +85,64 @@
   - `refreshSession`: Session reuse detection, refresh token rotation, issues new access JWT.
   - `logout`: Revokes `AuthSession` and clears cookie.
   - `getMe`: Returns authenticated user profile.
-- **AuthController & Router (`src/modules/auth/`)**: Registered under `/api/v1/auth`.
-
-### Frontend Integration
-- **`api-client.ts`**: Bearer token injection and automatic silent token refresh on 401.
-- **`auth-context.tsx`**: Manages user profile, `login()`, `logout()`, and session restoration.
-- **`LoginPage.tsx`**: Live authentication with role-based routing (`ADMIN`, `FACULTY`, `STUDENT`).
-- **`RegisterPage.tsx`**: Student registration with mandatory Roll ID and `@yenepoya.edu.in` validation.
-- **`VerifyEmailPage.tsx`**: Activation page mounted at `/verify-email`.
+- **Router (`src/modules/auth/`)**: Registered under `/api/v1/auth`.
 
 ---
 
-## 4. Next Phase: Timetable, Class Assignment & Administrative Verification
+## 4. Completed Timetable, Course Visibility & Academic Ops (Phase 3)
 
-1. **Admin Verification Dashboard**:
-   - List pending student registrations (`status: PENDING`).
-   - Approve / reject student accounts and assign official branch (`cse-aift`, `cse-aiml`, etc.) and current semester.
-2. **Timetable & Class Allocation System**:
-   - Timetable creation interface for administrators.
-   - Assign faculty and schedule periods/classrooms for approved subjects.
-   - Interactive student and faculty timetable calendar views.
+- **Branch**: `feat/phase-3-timetable-courses`
+- **Admin Course Visibility Control**:
+  - Course schema updated with `isVisibleToStudents: Boolean` (default `true`).
+  - Admin toggle API: `PATCH /api/v1/academic/courses/:id/visibility`.
+  - Student views (`StudentDashboard`, `CurriculumPage`, `TimetablePage`) strictly filter out hidden courses.
+- **Algorithmic 5-Day Timetable Generator**:
+  - Endpoint: `POST /api/v1/academic/timetable/generate`.
+  - Distributes approved weekly courses across 5 weekdays (Monday–Friday) and 6 daily periods (09:00–16:15) with lunch break and conflict-free classroom allocation.
+- **Timetable Views**:
+  - Student & Faculty interactive timetable viewer (`/student/timetable`) with day filtering, ongoing class indicator pulse, period badges, and print view.
+
+---
+
+## 5. Completed Faculty & Student Workflows (Phase 4)
+
+- **Branch**: `feat/phase-4-faculty-student-workflows`
+- **PDF Materials Repository & Upload Architecture**:
+  - Fixed PDF upload issues: increased Express JSON/URL-encoded body limit to 25MB, implemented disk persistence in `backend/uploads/materials/` with unique filenames.
+  - Streaming download endpoint: `GET /api/v1/academic/materials/:id/download`.
+  - Drag-and-drop file picker with file size formatting, PDF validation, and delete capabilities.
+  - Student learning materials browser (`/student/materials`) with course filters and instant downloads.
+- **Unified Coursework & Submissions Review**:
+  - Combined duplicate `/faculty/assignments` and `/faculty/submissions` workflows into a single unified workspace with dual tabs:
+    - Tab 1: `Assignments & Problem Sets` (create problem sets, specify max marks, rubrics, deadlines).
+    - Tab 2: `Submissions & Grading Review` (inspect student deliverables, evaluation modal, score recording, qualitative feedback).
+  - Student assignments portal (`/student/assignments`): view coursework, submission modal (text / LaTeX / repo link), real-time grade & feedback inspection.
+- **Announcements & Circulars System**:
+  - Real-time campus communication portal (`/announcements`) with priority badges, role targeting, and faculty/admin publishing.
+
+---
+
+## 6. Impeccable Design Audit & Hardening (Phase 4.5)
+
+- **Impeccable Mechanical Detector**: Passed with 0 warnings (`[]`) across all 16 page and component files.
+- **Craft Floor Rules Enforced**:
+  - **No Eyebrow Kickers**: Removed floating uppercase tracking labels and pill tags above headings across all pages (`LandingPage`, `StudentDashboard`, `FacultyDashboard`, `FacultyAssignmentsPage`, `FacultyMaterialsPage`, `AdminDashboard`, `AdminCoursesPage`, `AnnouncementsPage`, `LoginPage`).
+  - **No Gradient Text**: Replaced all `bg-clip-text` gradient titles with crisp solid institutional `#17A89B` / `#142B4A`.
+  - **Color Contrast & Readability**: Replaced low-contrast gray text on colored backgrounds with $\ge 4.5:1$ compliant palettes.
+  - **Solid Buttons**: Replaced gradient action buttons with crisp solid primary accents.
+  - **No Pseudo-Monospace**: Replaced artificial font-mono styling with standard sans typography and `tabular-nums`.
+- **Git Commit Discipline**: All file modifications committed individually with descriptive commit messages and pushed to remote branch `feat/phase-4-faculty-student-workflows`.
+
+---
+
+## 7. Next Up: Phase 5 (Vector Embeddings & RAG Ingestion)
+
+1. **Document Ingestion Pipeline**:
+   - Extract text from uploaded PDF materials in `backend/uploads/materials/`.
+   - Chunk text using semantic sliding windows (`DocumentChunk` model).
+2. **Embedding Generation**:
+   - Integrate NVIDIA NIM / text embedding adapter (`nvidia/nv-embedqa-e5-v5` or compatible).
+   - Store vectors with cosine similarity index in PostgreSQL (`pgvector`).
+3. **AI Chat RAG Integration**:
+   - Connect `AIChatPage.tsx` to live backend RAG query endpoint with role-scoped retrieval (`GENERAL`, `MY_COURSES`, `MY_DOCUMENTS`, `UNIVERSITY_KNOWLEDGE`).
+   - Ground responses in verified course syllabus and return structured citations with page numbers.
