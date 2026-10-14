@@ -39,7 +39,7 @@ Maintain a living threat model covering data flows, trust boundaries, abuse case
 
 ### Student registration policy
 - Self-registration is available only to students.
-- The server must validate and normalize the email, then enforce the exact domain `yenepoy.edu.in`. Reject lookalike domains such as `yenepoy.edu.in.attacker.com`, malformed addresses, and other domains.
+- The server must validate and normalize the email, then enforce the exact domain `yenepoya.edu.in`. Reject lookalike domains such as `yenepoya.edu.in.attacker.com`, malformed addresses, and other domains.
 - Use a well-tested email parser and compare the normalized domain as a complete domain label; do not use a simple substring match.
 - Verify ownership of the email address with a single-use, high-entropy token delivered to that address.
 - Verification tokens must expire, be stored hashed where practical, be single-use, and be invalidated after successful use or replacement.
