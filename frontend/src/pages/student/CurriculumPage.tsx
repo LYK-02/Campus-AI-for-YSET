@@ -1,15 +1,49 @@
-import React, { useState } from "react";
-import { BookOpen, ExternalLink, Award, FileText, CheckCircle2 } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { BookOpen, ExternalLink, Award, FileText, CheckCircle2, ShieldCheck, Loader2 } from "lucide-react";
 import { branches } from "../../data/branches";
+import { coursesApi } from "../../lib/api-client";
+import type { Course } from "../../types";
 
 export const CurriculumPage: React.FC = () => {
   const [selectedBranchId, setSelectedBranchId] = useState<string>("cse-aift");
   const [selectedSemester, setSelectedSemester] = useState<number>(1);
+  const [publishedCourses, setPublishedCourses] = useState<Course[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const currentBranch = branches.find((b) => b.id === selectedBranchId) || branches[0];
   const semesterData = currentBranch.semesters.find((s) => s.semester === selectedSemester);
-  const subjects = semesterData?.subjects || [];
-  const totalSemesterCredits = subjects.reduce((sum, s) => sum + s.credits, 0);
+  const fallbackSubjects = semesterData?.subjects || [];
+
+  useEffect(() => {
+    let isMounted = true;
+    setIsLoading(true);
+
+    coursesApi
+      .getCourses(selectedBranchId, selectedSemester)
+      .then((data) => {
+        if (isMounted) {
+          setPublishedCourses(data || []);
+          setIsLoading(false);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setPublishedCourses([]);
+          setIsLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedBranchId, selectedSemester]);
+
+  // Use published courses if available, otherwise fallback
+  const displaySubjects = publishedCourses.length > 0
+    ? publishedCourses.map((c) => ({ code: c.code, name: c.name, credits: c.credits }))
+    : fallbackSubjects.map((s, idx) => ({ code: `CSE-${selectedSemester}0${idx + 1}`, name: s.name, credits: s.credits }));
+
+  const totalSemesterCredits = displaySubjects.reduce((sum, s) => sum + s.credits, 0);
 
   return (
     <div className="space-y-6">
@@ -124,12 +158,14 @@ export const CurriculumPage: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E3E8F0]">
-              {subjects.map((sub, index) => (
+              {displaySubjects.map((sub, index) => (
                 <tr key={index} className="hover:bg-slate-50/80 transition-colors">
                   <td className="py-3.5 px-4 font-mono text-slate-400">{index + 1}</td>
                   <td className="py-3.5 px-4">
                     <div className="flex items-center gap-2.5">
-                      <BookOpen className="w-4 h-4 text-[#315EAA] shrink-0" />
+                      <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-[#315EAA]/10 text-[#315EAA]">
+                        {sub.code}
+                      </span>
                       <span className="font-semibold text-[#172033] text-sm">
                         {sub.name}
                       </span>
