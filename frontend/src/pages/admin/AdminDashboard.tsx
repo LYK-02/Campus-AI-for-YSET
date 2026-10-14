@@ -3,13 +3,11 @@ import { Link } from "react-router-dom";
 import {
   Users,
   BookOpen,
-  ShieldCheck,
   Database,
   Calendar,
   Bell,
   ArrowRight,
   GraduationCap,
-  Sparkles,
 } from "lucide-react";
 import { useAuth } from "../../context/auth-context";
 
