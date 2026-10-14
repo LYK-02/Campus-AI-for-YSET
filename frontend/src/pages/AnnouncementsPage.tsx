@@ -4,7 +4,6 @@ import {
   Plus,
   Pin,
   Trash2,
-  Calendar,
   AlertCircle,
   CheckCircle2,
   Loader2,
