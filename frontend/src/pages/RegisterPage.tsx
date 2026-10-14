@@ -3,14 +3,10 @@ import { Link } from "react-router-dom";
 import { Mail, Lock, User, Hash, CheckCircle2, AlertCircle } from "lucide-react";
 import { apiRequest } from "../lib/api-client";
 
-import { branches } from "../data/branches";
-
 export const RegisterPage: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [studentId, setStudentId] = useState("");
-  const [branchId, setBranchId] = useState("cse-aift");
-  const [semester, setSemester] = useState(1);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -26,6 +22,11 @@ export const RegisterPage: React.FC = () => {
 
     if (!isEmailValidDomain) {
       setError("Registration is restricted to the institutional domain: @yenepoy.edu.in");
+      return;
+    }
+
+    if (!studentId.trim()) {
+      setError("Student Registration / Roll ID is required.");
       return;
     }
 
@@ -47,9 +48,7 @@ export const RegisterPage: React.FC = () => {
         body: JSON.stringify({
           name,
           email,
-          studentId: studentId.trim() || undefined,
-          branchId,
-          semester,
+          studentId: studentId.trim(),
           password,
         }),
       });
@@ -162,55 +161,24 @@ export const RegisterPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#172033] mb-1.5">
-                  Student Registration / Roll ID (Optional)
+                <label className="block text-xs font-semibold text-[#172033] mb-1.5 flex items-center justify-between">
+                  <span>Student Registration / Roll ID</span>
+                  <span className="text-[11px] font-medium text-red-500 font-sans">*Mandatory</span>
                 </label>
                 <div className="relative">
                   <Hash className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                   <input
                     type="text"
+                    required
                     placeholder="e.g. YSET-2026-CS-042"
                     value={studentId}
                     onChange={(e) => setStudentId(e.target.value)}
                     className="w-full pl-10 pr-3.5 py-2.5 rounded-lg border border-[#E3E8F0] text-sm focus:outline-none focus:ring-2 focus:ring-[#315EAA]/30 focus:border-[#315EAA] bg-white"
                   />
                 </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold text-[#172033] mb-1.5">
-                    Engineering Branch
-                  </label>
-                  <select
-                    value={branchId}
-                    onChange={(e) => setBranchId(e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-lg border border-[#E3E8F0] text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#315EAA]/30 focus:border-[#315EAA] bg-white text-[#172033]"
-                  >
-                    {branches.map((b) => (
-                      <option key={b.id} value={b.id}>
-                        {b.shortName}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-[#172033] mb-1.5">
-                    Current Semester
-                  </label>
-                  <select
-                    value={semester}
-                    onChange={(e) => setSemester(Number(e.target.value))}
-                    className="w-full px-3 py-2.5 rounded-lg border border-[#E3E8F0] text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#315EAA]/30 focus:border-[#315EAA] bg-white text-[#172033]"
-                  >
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
-                      <option key={sem} value={sem}>
-                        Semester {sem}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                <p className="text-[11px] text-[#68758A] mt-1">
+                  Required for institutional verification. Your engineering branch, semester timetable, and enrolled courses will be assigned by the administration after approval.
+                </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
