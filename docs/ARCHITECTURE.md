@@ -263,7 +263,7 @@ Modules may use shared infrastructure, but one module should not directly mutate
 ### Student signup
 
 1. Validate email syntax and normalize it consistently.
-2. Enforce the complete domain `yenepoy.edu.in` on the server.
+2. Enforce the complete domain `yenepoya.edu.in` on the server.
 3. Create a pending student account with a fixed student role only.
 4. Send a single-use, expiring email verification link.
 5. Verify mailbox ownership.
@@ -558,7 +558,7 @@ Required test layers:
 - AI evaluations for prompt injection, citations, unsupported answers, and data leakage.
 
 Critical security tests:
-- Non-`yenepoy.edu.in` student signup is rejected.
+- Non-`yenepoya.edu.in` student signup is rejected.
 - Students cannot self-assign faculty/admin roles.
 - Students cannot access another user's private records or documents.
 - Faculty cannot access unassigned courses.
