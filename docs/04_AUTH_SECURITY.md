@@ -2,12 +2,11 @@
 
 ## 1. Institutional email policy
 
-Accepted domain: `yenepoy.edu.in` (confirm this exact domain with the
-institution before production).
+Accepted domain: `yenepoya.edu.in` (confirmed official Yenepoya domain).
 
 Rules: 1. Trim whitespace and lowercase the email before comparison. 2.
-Require the exact suffix `@yenepoy.edu.in`; reject lookalike domains
-such as `yenepoy.edu.in.attacker.example`. 3. Validate server-side on
+Require the exact suffix `@yenepoya.edu.in`; reject lookalike domains
+such as `yenepoya.edu.in.attacker.example`. 3. Validate server-side on
 registration and login. Frontend validation is for user experience only.
 4. Verify mailbox ownership using a short-lived, single-use token. 5. If
 needed, cross-check a student roster or invitation list; domain
@@ -32,7 +31,7 @@ export function isAllowedInstitutionalEmail(input: unknown): input is string {
       local.endsWith(".") || local.includes("..")) return false;
 
   // Use a mature email validation library for full syntax validation.
-  return domain === "yenepoy.edu.in";
+  return domain === "yenepoya.edu.in";
 }
 ```
 
