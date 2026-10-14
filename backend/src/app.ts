@@ -27,9 +27,9 @@ app.use(
   })
 );
 
-// Request parsing
-app.use(express.json({ limit: "1mb" }));
-app.use(express.urlencoded({ extended: true, limit: "1mb" }));
+// Request parsing (supported up to 25mb for PDF uploads)
+app.use(express.json({ limit: "25mb" }));
+app.use(express.urlencoded({ extended: true, limit: "25mb" }));
 app.use(cookieParser(env.COOKIE_SECRET));
 
 // Request tracking & logging
