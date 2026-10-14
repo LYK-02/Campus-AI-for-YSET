@@ -156,6 +156,181 @@ async function main() {
     console.log("✅ Created Student User: student@yenepoya.edu.in / Student@YSET2026!");
   }
 
+  // 7. Seed Sample Course Enrollments & Teaching Assignments
+  const mathCourse = await prisma.course.findFirst({
+    where: { universityId: university.id, code: "CSE-101" },
+  });
+  const progCourse = await prisma.course.findFirst({
+    where: { universityId: university.id, code: "CSE-103" },
+  });
+
+  if (mathCourse && faculty && student) {
+    // Teaching assignment
+    await prisma.teachingAssignment.upsert({
+      where: {
+        facultyId_courseId: { facultyId: faculty.id, courseId: mathCourse.id },
+      },
+      update: {},
+      create: { facultyId: faculty.id, courseId: mathCourse.id },
+    });
+
+    // Student enrollment
+    await prisma.enrollment.upsert({
+      where: {
+        studentId_courseId: { studentId: student.id, courseId: mathCourse.id },
+      },
+      update: {},
+      create: { studentId: student.id, courseId: mathCourse.id },
+    });
+
+    // Sample Assignment 1: Mathematics
+    let mathAssignment = await prisma.assignment.findFirst({
+      where: { courseId: mathCourse.id, title: "Problem Set 1: Matrix Inversion & Linear Systems" },
+    });
+    if (!mathAssignment) {
+      mathAssignment = await prisma.assignment.create({
+        data: {
+          courseId: mathCourse.id,
+          creatorId: faculty.id,
+          title: "Problem Set 1: Matrix Inversion & Linear Systems",
+          description: "Complete all problem sets from Chapter 3 on Gaussian Elimination, LU Decomposition, and Eigenvalues. Submit hand-written or LaTeX solutions.",
+          dueDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000),
+          maxMarks: 100,
+        },
+      });
+
+      // Sample graded submission for student
+      await prisma.submission.upsert({
+        where: {
+          assignmentId_studentId: { assignmentId: mathAssignment.id, studentId: student.id },
+        },
+        update: {},
+        create: {
+          assignmentId: mathAssignment.id,
+          studentId: student.id,
+          content: "Detailed solution steps completed for Gaussian Elimination and Eigenvalue calculations (LaTeX PDF).",
+          marks: 92,
+          feedback: "Excellent precision on matrix row operations! Clear explanation of basis vectors.",
+          status: "GRADED",
+          gradedAt: new Date(),
+        },
+      });
+    }
+
+    // Sample Material
+    const existingMat = await prisma.material.findFirst({
+      where: { courseId: mathCourse.id, title: "Unit 1: Linear Algebra & Matrix Transformations Lecture Notes" },
+    });
+    if (!existingMat) {
+      await prisma.material.create({
+        data: {
+          universityId: university.id,
+          ownerId: faculty.id,
+          courseId: mathCourse.id,
+          title: "Unit 1: Linear Algebra & Matrix Transformations Lecture Notes",
+          description: "Official lecture handouts covering vector spaces, linear transformations, and matrix diagonalization.",
+          storageKey: "materials/cse101_unit1_linear_algebra.pdf",
+          originalFilename: "YSET_CSE101_Unit1_Notes.pdf",
+          mimeType: "application/pdf",
+          sizeBytes: 2450000,
+          visibility: "COURSE",
+          processingStatus: "READY",
+        },
+      });
+    }
+  }
+
+  if (progCourse && faculty && student) {
+    // Teaching assignment
+    await prisma.teachingAssignment.upsert({
+      where: {
+        facultyId_courseId: { facultyId: faculty.id, courseId: progCourse.id },
+      },
+      update: {},
+      create: { facultyId: faculty.id, courseId: progCourse.id },
+    });
+
+    // Student enrollment
+    await prisma.enrollment.upsert({
+      where: {
+        studentId_courseId: { studentId: student.id, courseId: progCourse.id },
+      },
+      update: {},
+      create: { studentId: student.id, courseId: progCourse.id },
+    });
+
+    // Sample Assignment 2: Python Programming
+    const progAssignment = await prisma.assignment.findFirst({
+      where: { courseId: progCourse.id, title: "Lab Exercise 2: Python Data Structures & Algorithmic Complexity" },
+    });
+    if (!progAssignment) {
+      await prisma.assignment.create({
+        data: {
+          courseId: progCourse.id,
+          creatorId: faculty.id,
+          title: "Lab Exercise 2: Python Data Structures & Algorithmic Complexity",
+          description: "Implement custom Hash Table and Binary Search Tree in Python 3. Include unit tests for collision resolution and benchmark time complexities.",
+          dueDate: new Date(Date.now() + 8 * 24 * 60 * 60 * 1000),
+          maxMarks: 50,
+        },
+      });
+    }
+
+    // Sample Material 2
+    const existingProgMat = await prisma.material.findFirst({
+      where: { courseId: progCourse.id, title: "Python Programming Style Guide & Lab Manual 2026" },
+    });
+    if (!existingProgMat) {
+      await prisma.material.create({
+        data: {
+          universityId: university.id,
+          ownerId: faculty.id,
+          courseId: progCourse.id,
+          title: "Python Programming Style Guide & Lab Manual 2026",
+          description: "Official YSET CSE laboratory guidelines, PEP 8 standards, and submission rubric.",
+          storageKey: "materials/cse103_python_lab_manual.pdf",
+          originalFilename: "YSET_Python_Lab_Manual_2026.pdf",
+          mimeType: "application/pdf",
+          sizeBytes: 1820000,
+          visibility: "COURSE",
+          processingStatus: "READY",
+        },
+      });
+    }
+  }
+
+  // 8. Sample University Announcements
+  const existingAnn1 = await prisma.announcement.findFirst({
+    where: { universityId: university.id, title: "Mid-Term Examination Schedule & Room Allocations - Oct 2026" },
+  });
+  if (!existingAnn1 && admin) {
+    await prisma.announcement.create({
+      data: {
+        universityId: university.id,
+        creatorId: admin.id,
+        title: "Mid-Term Examination Schedule & Room Allocations - Oct 2026",
+        content: "The mid-term examination timetable for all B.Tech semesters has been officially confirmed. Students are required to report to their designated lecture halls with physical university ID cards.",
+        isPinned: true,
+      },
+    });
+  }
+
+  const existingAnn2 = await prisma.announcement.findFirst({
+    where: { universityId: university.id, title: "Guest Lecture: AI & Full Stack Architecture in Modern Industry" },
+  });
+  if (!existingAnn2 && faculty) {
+    await prisma.announcement.create({
+      data: {
+        universityId: university.id,
+        creatorId: faculty.id,
+        title: "Guest Lecture: AI & Full Stack Architecture in Modern Industry",
+        content: "Join us this Friday at 2:00 PM in Seminar Hall A for an industry keynote on scalable cloud microservices, presented by senior engineering leads.",
+        isPinned: false,
+      },
+    });
+  }
+
+  console.log("✅ Seeded initial assignments, materials, and campus announcements");
   console.log("🎉 Seeding complete!");
 }
 

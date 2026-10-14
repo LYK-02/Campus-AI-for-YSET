@@ -76,3 +76,97 @@ export interface TimetableSlot {
     isPublished: boolean;
   };
 }
+
+export type AssignmentStatus = "DRAFT" | "PUBLISHED" | "CLOSED";
+export type SubmissionStatus = "SUBMITTED" | "GRADED" | "LATE";
+export type MaterialVisibility = "PRIVATE" | "COURSE" | "UNIVERSITY";
+
+export interface Submission {
+  id: string;
+  assignmentId: string;
+  studentId: string;
+  content?: string | null;
+  storageKey?: string | null;
+  status: SubmissionStatus;
+  marks?: number | null;
+  feedback?: string | null;
+  submittedAt: string;
+  gradedAt?: string | null;
+  student?: {
+    id: string;
+    name: string;
+    studentId?: string | null;
+    emailNormalized?: string;
+  };
+}
+
+export interface Assignment {
+  id: string;
+  courseId: string;
+  creatorId: string;
+  title: string;
+  description: string;
+  dueDate: string;
+  maxMarks: number;
+  status: AssignmentStatus;
+  createdAt: string;
+  updatedAt: string;
+  course?: {
+    id: string;
+    code: string;
+    name: string;
+    semester?: string | null;
+  };
+  creator?: {
+    id: string;
+    name: string;
+  };
+  submissions?: Submission[];
+}
+
+export interface Material {
+  id: string;
+  universityId: string;
+  ownerId: string;
+  courseId?: string | null;
+  title: string;
+  description?: string | null;
+  storageKey: string;
+  originalFilename: string;
+  mimeType: string;
+  sizeBytes: number;
+  visibility: MaterialVisibility;
+  createdAt: string;
+  updatedAt: string;
+  course?: {
+    id: string;
+    code: string;
+    name: string;
+    semester?: string | null;
+  } | null;
+  owner?: {
+    id: string;
+    name: string;
+  };
+}
+
+export interface Announcement {
+  id: string;
+  universityId: string;
+  courseId?: string | null;
+  creatorId: string;
+  title: string;
+  content: string;
+  isPinned: boolean;
+  createdAt: string;
+  expiresAt?: string | null;
+  course?: {
+    id: string;
+    code: string;
+    name: string;
+  } | null;
+  creator?: {
+    id: string;
+    name: string;
+  };
+}

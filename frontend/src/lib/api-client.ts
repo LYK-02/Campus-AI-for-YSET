@@ -153,7 +153,7 @@ export async function apiRequest<T = any>(endpoint: string, options: RequestOpti
 // ----------------------------------------------------------------------
 // Course & Timetable API Helpers
 // ----------------------------------------------------------------------
-import type { Course, TimetableSlot } from "../types";
+import type { Course, TimetableSlot, Assignment, Submission, Material, Announcement } from "../types";
 
 export const coursesApi = {
   getCourses: (branchId = "cse-aift", semester = 1) =>
@@ -184,5 +184,91 @@ export const timetableApi = {
     apiRequest<{ message: string }>("/timetable", {
       method: "DELETE",
       body: JSON.stringify({ branchId, semester }),
+    }),
+};
+
+export const assignmentsApi = {
+  getAssignments: (courseId?: string) =>
+    apiRequest<Assignment[]>("/assignments", {
+      params: courseId ? { courseId } : undefined,
+    }),
+
+  createAssignment: (data: {
+    courseId: string;
+    title: string;
+    description: string;
+    dueDate: string;
+    maxMarks?: number;
+  }) =>
+    apiRequest<Assignment>("/assignments", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+
+  submitAssignment: (
+    assignmentId: string,
+    data: { content?: string; storageKey?: string }
+  ) =>
+    apiRequest<Submission>(`/assignments/${assignmentId}/submit`, {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+
+  gradeSubmission: (
+    submissionId: string,
+    data: { marks: number; feedback?: string }
+  ) =>
+    apiRequest<Submission>(`/assignments/submissions/${submissionId}/grade`, {
+      method: "PATCH",
+      body: JSON.stringify(data),
+    }),
+};
+
+export const materialsApi = {
+  getMaterials: (courseId?: string) =>
+    apiRequest<Material[]>("/materials", {
+      params: courseId ? { courseId } : undefined,
+    }),
+
+  createMaterial: (data: {
+    courseId?: string;
+    title: string;
+    description?: string;
+    originalFilename: string;
+    mimeType?: string;
+    sizeBytes?: number;
+    storageKey?: string;
+  }) =>
+    apiRequest<Material>("/materials", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+
+  deleteMaterial: (id: string) =>
+    apiRequest<{ message: string }>(`/materials/${id}`, {
+      method: "DELETE",
+    }),
+};
+
+export const announcementsApi = {
+  getAnnouncements: (courseId?: string) =>
+    apiRequest<Announcement[]>("/announcements", {
+      params: courseId ? { courseId } : undefined,
+    }),
+
+  createAnnouncement: (data: {
+    courseId?: string;
+    title: string;
+    content: string;
+    isPinned?: boolean;
+  }) =>
+    apiRequest<Announcement>("/announcements", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+
+  deleteAnnouncement: (id: string) =>
+    apiRequest<{ message: string }>(`/announcements/${id}`, {
+      method: "DELETE",
     }),
 };

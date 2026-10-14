@@ -10,6 +10,7 @@ import { errorHandler } from "./middleware/error-handler.js";
 import { healthRouter } from "./modules/health/health.router.js";
 import { authRouter } from "./modules/auth/auth.router.js";
 import { coursesRouter, timetableRouter } from "./modules/courses/courses.router.js";
+import { assignmentsRouter, materialsRouter, announcementsRouter } from "./modules/academic/academic.router.js";
 
 export const app = express();
 
@@ -51,6 +52,9 @@ app.use(`${env.API_PREFIX}/health`, healthRouter);
 app.use(`${env.API_PREFIX}/auth`, authRouter);
 app.use(`${env.API_PREFIX}/courses`, coursesRouter);
 app.use(`${env.API_PREFIX}/timetable`, timetableRouter);
+app.use(`${env.API_PREFIX}/assignments`, assignmentsRouter);
+app.use(`${env.API_PREFIX}/materials`, materialsRouter);
+app.use(`${env.API_PREFIX}/announcements`, announcementsRouter);
 
 // 404 & Error handlers
 app.use(notFoundHandler);

@@ -24,14 +24,20 @@ export const FacultyDashboard: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-1.5 bg-[#142B4A] hover:bg-[#0F2038] text-white text-xs font-semibold px-3.5 py-2 rounded-xl transition-colors">
+          <Link
+            to="/faculty/materials"
+            className="flex items-center gap-1.5 bg-[#142B4A] hover:bg-[#0F2038] text-white text-xs font-semibold px-3.5 py-2 rounded-xl transition-colors"
+          >
             <Upload className="w-3.5 h-3.5" />
             <span>Upload Material</span>
-          </button>
-          <button className="flex items-center gap-1.5 bg-[#315EAA] hover:bg-[#264A86] text-white text-xs font-semibold px-3.5 py-2 rounded-xl transition-colors">
+          </Link>
+          <Link
+            to="/faculty/assignments"
+            className="flex items-center gap-1.5 bg-[#315EAA] hover:bg-[#264A86] text-white text-xs font-semibold px-3.5 py-2 rounded-xl transition-colors"
+          >
             <Plus className="w-3.5 h-3.5" />
             <span>Create Assignment</span>
-          </button>
+          </Link>
         </div>
       </div>
 
