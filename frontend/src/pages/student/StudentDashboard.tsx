@@ -54,10 +54,6 @@ export const StudentDashboard: React.FC = () => {
       {/* Welcome Banner */}
       <div className="bg-white p-6 sm:p-8 rounded-2xl border border-[#E3E8F0] shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#17A89B]/10 text-[#12887C] text-xs font-semibold mb-2">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Student Academic Portal · YSET</span>
-          </div>
           <h1 className="text-2xl sm:text-3xl font-bold text-[#142B4A] tracking-tight">
             Welcome back, {studentName}
           </h1>

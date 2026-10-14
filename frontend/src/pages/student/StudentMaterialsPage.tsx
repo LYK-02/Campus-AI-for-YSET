@@ -75,14 +75,11 @@ export const StudentMaterialsPage: React.FC = () => {
       {/* Header */}
       <div className="bg-white rounded-2xl border border-[#E3E8F0] p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#315EAA] mb-1">
-            <FileText className="w-4 h-4" />
-            <span>Academic Handouts & Digital Library</span>
-          </div>
-          <h1 className="text-2xl font-bold text-[#142B4A]">
-            Learning Materials & Lecture Notes
+          <h1 className="text-2xl font-bold text-[#142B4A] flex items-center gap-2.5">
+            <FileText className="w-6 h-6 text-[#315EAA]" />
+            <span>Learning Materials & Lecture Notes</span>
           </h1>
-          <p className="text-sm text-slate-500 mt-0.5">
+          <p className="text-sm text-slate-500 mt-1">
             Access verified lecture presentations, problem sheets, and lab manuals provided by YSET faculty.
           </p>
         </div>
@@ -140,23 +137,23 @@ export const StudentMaterialsPage: React.FC = () => {
             >
               <div className="space-y-2">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-[#315EAA]/10 text-[#315EAA]">
+                  <span className="text-xs font-bold px-2 py-0.5 rounded bg-[#315EAA]/10 text-[#315EAA] tracking-wide">
                     {mat.course?.code || "GENERAL"}
                   </span>
-                  <span className="text-[11px] text-slate-400 font-medium">
+                  <span className="text-[11px] text-slate-500 font-medium tabular-nums">
                     {(mat.sizeBytes / (1024 * 1024)).toFixed(1)} MB · PDF
                   </span>
                 </div>
                 <h2 className="text-base font-bold text-[#142B4A] leading-snug">{mat.title}</h2>
                 <p className="text-xs text-slate-600 line-clamp-2">{mat.description || "Lecture document."}</p>
-                <p className="text-[11px] font-mono text-slate-400 truncate flex items-center gap-1.5">
+                <p className="text-[11px] text-slate-500 truncate flex items-center gap-1.5 font-medium">
                   <FileText className="w-3.5 h-3.5 text-red-500 shrink-0" />
                   <span>{mat.originalFilename}</span>
                 </p>
               </div>
 
               <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-[11px] text-slate-400">
+                <span className="text-[11px] text-slate-500 font-medium">
                   {mat.owner?.name ? `By ${mat.owner.name}` : "Faculty Upload"}
                 </span>
                 <button

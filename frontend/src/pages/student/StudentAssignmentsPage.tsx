@@ -84,14 +84,11 @@ export const StudentAssignmentsPage: React.FC = () => {
       {/* Header */}
       <div className="bg-white rounded-2xl border border-[#E3E8F0] p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#315EAA] mb-1">
-            <CheckSquare className="w-4 h-4" />
-            <span>Coursework & Assessments</span>
-          </div>
-          <h1 className="text-2xl font-bold text-[#142B4A]">
-            My Assignments
+          <h1 className="text-2xl font-bold text-[#142B4A] flex items-center gap-2.5">
+            <CheckSquare className="w-6 h-6 text-[#315EAA]" />
+            <span>My Assignments</span>
           </h1>
-          <p className="text-sm text-slate-500 mt-0.5">
+          <p className="text-sm text-slate-500 mt-1">
             View course deliverables, track submission deadlines, and review evaluated marks and faculty feedback.
           </p>
         </div>

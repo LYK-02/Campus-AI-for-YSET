@@ -142,14 +142,11 @@ export const AdminCoursesPage: React.FC = () => {
       {/* Page Header */}
       <div className="bg-white rounded-2xl border border-[#E3E8F0] p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#315EAA] mb-1">
-            <GraduationCap className="w-4 h-4" />
-            <span>Academic Operations & Curriculum Control</span>
-          </div>
-          <h1 className="text-2xl font-bold text-[#142B4A]">
-            Course Visibility & Timetable Automation
+          <h1 className="text-2xl font-bold text-[#142B4A] flex items-center gap-2.5">
+            <GraduationCap className="w-6 h-6 text-[#315EAA]" />
+            <span>Course Visibility & Timetable Automation</span>
           </h1>
-          <p className="text-sm text-slate-500 mt-0.5">
+          <p className="text-sm text-slate-500 mt-1">
             Decide exactly which courses students can see and auto-generate balanced 5-day academic schedules.
           </p>
         </div>
@@ -159,7 +156,7 @@ export const AdminCoursesPage: React.FC = () => {
           <button
             onClick={handleAutoGenerate}
             disabled={isGenerating || isLoading}
-            className="flex items-center gap-2 bg-gradient-to-r from-[#17A89B] to-[#12887C] hover:from-[#149589] hover:to-[#0F766C] text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-sm transition-all active:scale-[0.98] disabled:opacity-60 cursor-pointer"
+            className="flex items-center gap-2 bg-[#17A89B] hover:bg-[#13897E] text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-xs transition-all active:scale-[0.98] disabled:opacity-60 cursor-pointer"
           >
             {isGenerating ? (
               <Loader2 className="w-4 h-4 animate-spin" />

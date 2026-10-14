@@ -134,7 +134,7 @@ export const AIChatPage: React.FC = () => {
               {/* Source citations */}
               {msg.sources && msg.sources.length > 0 && (
                 <div className="mt-3 pt-3 border-t border-slate-200">
-                  <span className="text-[10px] font-bold text-[#68758A] uppercase tracking-wider block mb-1.5">
+                  <span className="text-xs font-semibold text-slate-700 block mb-1.5">
                     Verified Sources:
                   </span>
                   <div className="flex flex-wrap gap-2">

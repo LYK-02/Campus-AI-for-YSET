@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ExternalLink, Award, FileText, CheckCircle2, Loader2 } from "lucide-react";
+import { ExternalLink, Award, FileText, CheckCircle2, Loader2, BookOpen } from "lucide-react";
 import { branches } from "../../data/branches";
 import { coursesApi } from "../../lib/api-client";
 import type { Course } from "../../types";
@@ -50,13 +50,11 @@ export const CurriculumPage: React.FC = () => {
       {/* Header */}
       <div className="bg-white p-6 sm:p-8 rounded-2xl border border-[#E3E8F0] shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <span className="inline-block text-xs font-semibold uppercase tracking-wider text-[#315EAA] bg-[#315EAA]/10 px-2.5 py-0.5 rounded-full mb-2">
-            Academic Curriculum
-          </span>
-          <h1 className="text-2xl font-bold text-[#172033] tracking-tight">
-            YSET Syllabus & Credit Sheets
+          <h1 className="text-2xl font-bold text-[#142B4A] tracking-tight flex items-center gap-2.5">
+            <BookOpen className="w-6 h-6 text-[#315EAA]" />
+            <span>YSET Syllabus & Credit Sheets</span>
           </h1>
-          <p className="text-xs text-[#68758A] mt-1">
+          <p className="text-sm text-slate-500 mt-1">
             Explore approved course schemes, subjects, and official credit distributions for Yenepoya School of Technology.
           </p>
         </div>

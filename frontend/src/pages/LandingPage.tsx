@@ -67,16 +67,9 @@ export const LandingPage: React.FC = () => {
 
       {/* Hero Section */}
       <main className="max-w-6xl mx-auto px-6 py-16 sm:py-20 text-center relative">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#17A89B]/10 border border-[#17A89B]/25 text-[#12887C] text-xs font-semibold mb-6 shadow-xs">
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>Next-Generation Academic LMS with Context-Aware YSET AI</span>
-        </div>
-
         <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#142B4A] tracking-tight mb-6 leading-tight">
           Where Engineering Excellence Meets <br className="hidden sm:block" />
-          <span className="bg-gradient-to-r from-[#17A89B] via-[#315EAA] to-[#142B4A] bg-clip-text text-transparent">
-            Institutional AI Intelligence
-          </span>
+          <span className="text-[#17A89B]">Institutional AI Intelligence</span>
         </h2>
 
         <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed font-normal">
@@ -104,7 +97,7 @@ export const LandingPage: React.FC = () => {
         {/* Quick Highlights / Trust Metrics */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 text-left">
           <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#E3E8F0] shadow-xs">
-            <div className="flex items-center gap-2 text-[#315EAA] text-xs font-bold uppercase tracking-wider mb-1">
+            <div className="flex items-center gap-2 text-[#315EAA] text-xs font-semibold mb-1.5">
               <ShieldCheck className="w-4 h-4" />
               <span>Campus Security</span>
             </div>
@@ -113,7 +106,7 @@ export const LandingPage: React.FC = () => {
           </div>
 
           <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#E3E8F0] shadow-xs">
-            <div className="flex items-center gap-2 text-[#17A89B] text-xs font-bold uppercase tracking-wider mb-1">
+            <div className="flex items-center gap-2 text-[#17A89B] text-xs font-semibold mb-1.5">
               <Calendar className="w-4 h-4" />
               <span>Timetable</span>
             </div>
@@ -122,7 +115,7 @@ export const LandingPage: React.FC = () => {
           </div>
 
           <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#E3E8F0] shadow-xs">
-            <div className="flex items-center gap-2 text-[#D99019] text-xs font-bold uppercase tracking-wider mb-1">
+            <div className="flex items-center gap-2 text-[#D99019] text-xs font-semibold mb-1.5">
               <BookOpen className="w-4 h-4" />
               <span>Coursework</span>
             </div>
@@ -131,7 +124,7 @@ export const LandingPage: React.FC = () => {
           </div>
 
           <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#E3E8F0] shadow-xs">
-            <div className="flex items-center gap-2 text-[#315EAA] text-xs font-bold uppercase tracking-wider mb-1">
+            <div className="flex items-center gap-2 text-[#315EAA] text-xs font-semibold mb-1.5">
               <Sparkles className="w-4 h-4" />
               <span>YSET AI Tutor</span>
             </div>
