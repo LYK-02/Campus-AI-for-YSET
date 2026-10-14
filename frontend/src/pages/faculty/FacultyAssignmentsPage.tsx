@@ -224,14 +224,11 @@ export const FacultyAssignmentsPage: React.FC = () => {
       {/* Main Header */}
       <div className="bg-white rounded-2xl border border-[#E3E8F0] p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#315EAA] mb-1">
-            <CheckSquare className="w-4 h-4" />
-            <span>YSET Faculty Academic Portal</span>
-          </div>
-          <h1 className="text-2xl font-bold text-[#142B4A]">
-            Coursework & Submissions Review
+          <h1 className="text-2xl font-bold text-[#142B4A] flex items-center gap-2.5">
+            <CheckSquare className="w-6 h-6 text-[#315EAA]" />
+            <span>Coursework & Submissions Review</span>
           </h1>
-          <p className="text-sm text-slate-500 mt-0.5">
+          <p className="text-sm text-slate-500 mt-1">
             Manage course problem sets, inspect student deliverables, and evaluate coursework with qualitative feedback.
           </p>
         </div>
@@ -503,7 +500,7 @@ export const FacultyAssignmentsPage: React.FC = () => {
             ) : (
               <div className="overflow-x-auto border border-[#E3E8F0] rounded-xl bg-white">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-[#F8FAFC] border-b border-[#E3E8F0] text-slate-500 uppercase tracking-wider font-semibold">
+                  <thead className="bg-[#F8FAFC] border-b border-[#E3E8F0] text-slate-600 uppercase tracking-wider font-semibold">
                     <tr>
                       <th className="py-3 px-4">Student</th>
                       <th className="py-3 px-4">Assignment / Course</th>
