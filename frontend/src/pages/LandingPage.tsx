@@ -74,9 +74,7 @@ export const LandingPage: React.FC = () => {
 
         <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#142B4A] tracking-tight mb-6 leading-tight">
           Where Engineering Excellence Meets <br className="hidden sm:block" />
-          <span className="bg-gradient-to-r from-[#17A89B] via-[#315EAA] to-[#142B4A] bg-clip-text text-transparent">
-            Institutional AI Intelligence
-          </span>
+          <span className="text-[#17A89B]">Institutional AI Intelligence</span>
         </h2>
 
         <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed font-normal">
