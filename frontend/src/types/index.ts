@@ -42,3 +42,37 @@ export interface ApiErrorResponse {
     details?: Array<{ field: string; message: string }>;
   };
 }
+
+export interface Course {
+  id: string;
+  code: string;
+  name: string;
+  description?: string | null;
+  credits: number;
+  semester: string;
+  branchId?: string | null;
+  isPublished: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface TimetableSlot {
+  id: string;
+  universityId: string;
+  branchId: string;
+  semester: number;
+  dayOfWeek: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | string;
+  periodNumber: number;
+  startTime: string;
+  endTime: string;
+  room: string;
+  courseId: string;
+  facultyName?: string | null;
+  course?: {
+    id: string;
+    code: string;
+    name: string;
+    credits: number;
+    isPublished: boolean;
+  };
+}
