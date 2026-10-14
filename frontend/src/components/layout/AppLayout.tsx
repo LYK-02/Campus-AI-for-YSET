@@ -133,13 +133,13 @@ export const AppLayout: React.FC = () => {
               </div>
               <div className="truncate">
                 <p className="text-xs font-semibold text-white truncate">{user?.name || "Campus User"}</p>
-                <p className="text-[11px] text-slate-400 capitalize">{primaryRole}</p>
+                <p className="text-[11px] text-slate-300 capitalize">{primaryRole}</p>
               </div>
             </div>
             <button
               onClick={() => logout()}
               title="Sign out"
-              className="p-1.5 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+              className="p-1.5 text-slate-300 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer"
             >
               <LogOut className="w-4 h-4" />
             </button>
