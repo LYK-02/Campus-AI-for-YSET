@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   FileText,
-  Download,
-  BookOpen,
-  Calendar,
   AlertCircle,
   CheckCircle2,
   Loader2,
