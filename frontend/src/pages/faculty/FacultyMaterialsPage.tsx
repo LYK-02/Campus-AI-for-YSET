@@ -301,7 +301,7 @@ export const FacultyMaterialsPage: React.FC = () => {
                   </button>
                   <button
                     onClick={() => handleDelete(mat.id, mat.title)}
-                    className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                    className="p-1.5 text-slate-500 hover:text-red-700 hover:bg-red-100/70 rounded-lg transition-colors cursor-pointer"
                     title="Delete material"
                   >
                     <Trash2 className="w-4 h-4" />
