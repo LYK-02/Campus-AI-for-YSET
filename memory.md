@@ -78,16 +78,45 @@
 
 ---
 
-## 3. Immediate Next Phase: Phase 2 (Authentication & Access Control)
+## 3. Completed Authentication & Access Control (Phase 2)
 
-1. **Backend Auth Implementation**:
-   - `POST /api/v1/auth/register`: Student signup with exact `@yenepoya.edu.in` check, mandatory `studentId`, Argon2id/bcrypt hashing, single-use verification token creation.
-   - `POST /api/v1/auth/verify-email`: Token consumption and account activation.
-   - `POST /api/v1/auth/login`: Credential validation, issuing 15-minute access JWT and 7-day rotating refresh token in `HttpOnly` cookie, recording `AuthSession`.
-   - `GET /api/v1/auth/me`: Authenticated user profile and role memberships.
-   - `POST /api/v1/auth/refresh`: Refresh token rotation with reuse detection.
-   - `POST /api/v1/auth/logout`: Revocation of current session and clearing cookies.
-2. **Database Migration**:
-   - Run `prisma migrate dev` against the local PostgreSQL database to generate tables.
-3. **Frontend Integration**:
-   - Connect `LoginPage` and `RegisterPage` to the live backend endpoints.
+### Database Migration & Seeding
+- **PostgreSQL 18**: Migration `0_init_yset_schema` successfully applied to database `campus_ai`.
+- **Prisma Client**: Generated v6.19.3.
+- **Institutional Seeder (`backend/prisma/seed.ts`)**:
+  - University: `Yenepoya School of Technology` (`yenepoya.edu.in`)
+  - Department: `Computer Science & Engineering` (`CSE`)
+  - Core curriculum courses for Semester 1 & 2
+  - Default Admin: `admin@yenepoya.edu.in` / `Admin@YSET2026!`
+  - Default Faculty: `faculty@yenepoya.edu.in` / `Faculty@YSET2026!`
+  - Default Student: `student@yenepoya.edu.in` (`YSET-2026-CS-001`) / `Student@YSET2026!`
+
+### Backend Authentication Slice
+- **Middleware (`src/middleware/auth.ts`)**: JWT Bearer verification (`authenticate`) and role checking (`requireRoles`).
+- **AuthService (`src/modules/auth/auth.service.ts`)**:
+  - `registerStudent`: Enforces `@yenepoya.edu.in`, mandatory Roll ID, bcrypt password hashing, 24h verification token generation.
+  - `verifyEmail`: Consumes single-use verification token and activates student account.
+  - `login`: Validates credentials, checks email verification and status, issues 15-minute access JWT, issues 7-day rotating refresh token in `HttpOnly` cookie.
+  - `refreshSession`: Session reuse detection, refresh token rotation, issues new access JWT.
+  - `logout`: Revokes `AuthSession` and clears cookie.
+  - `getMe`: Returns authenticated user profile.
+- **AuthController & Router (`src/modules/auth/`)**: Registered under `/api/v1/auth`.
+
+### Frontend Integration
+- **`api-client.ts`**: Bearer token injection and automatic silent token refresh on 401.
+- **`auth-context.tsx`**: Manages user profile, `login()`, `logout()`, and session restoration.
+- **`LoginPage.tsx`**: Live authentication with role-based routing (`ADMIN`, `FACULTY`, `STUDENT`).
+- **`RegisterPage.tsx`**: Student registration with mandatory Roll ID and `@yenepoya.edu.in` validation.
+- **`VerifyEmailPage.tsx`**: Activation page mounted at `/verify-email`.
+
+---
+
+## 4. Next Phase: Timetable, Class Assignment & Administrative Verification
+
+1. **Admin Verification Dashboard**:
+   - List pending student registrations (`status: PENDING`).
+   - Approve / reject student accounts and assign official branch (`cse-aift`, `cse-aiml`, etc.) and current semester.
+2. **Timetable & Class Allocation System**:
+   - Timetable creation interface for administrators.
+   - Assign faculty and schedule periods/classrooms for approved subjects.
+   - Interactive student and faculty timetable calendar views.
