@@ -14,7 +14,7 @@ estimate, not a guarantee.
 
 ### Tasks
 
--   Confirm exact institutional domain `yenepoy.edu.in`.
+-   Confirm exact institutional domain `yenepoya.edu.in`.
 -   Confirm whether email verification alone is sufficient or a student
     roster/invitation is required.
 -   Decide session-cookie vs JWT+refresh-session strategy.
