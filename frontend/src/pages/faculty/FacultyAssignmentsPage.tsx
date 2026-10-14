@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   CheckSquare,
   Plus,
-  Calendar,
   Clock,
-  User,
   Award,
   FileText,
   AlertCircle,
@@ -20,7 +18,6 @@ export const FacultyAssignmentsPage: React.FC = () => {
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [selectedAssignment, setSelectedAssignment] = useState<Assignment | null>(null);
 
   // Modals state
   const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
