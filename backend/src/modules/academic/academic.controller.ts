@@ -146,7 +146,17 @@ export class AcademicController {
     try {
       const universityId = req.user!.universityId;
       const ownerId = req.user!.id;
-      const { courseId, title, description, storageKey, originalFilename, mimeType, sizeBytes, visibility } = req.body;
+      const {
+        courseId,
+        title,
+        description,
+        storageKey,
+        originalFilename,
+        mimeType,
+        sizeBytes,
+        visibility,
+        fileBase64,
+      } = req.body;
 
       if (!title || !originalFilename) {
         res.status(400).json({
@@ -161,11 +171,12 @@ export class AcademicController {
         courseId,
         title,
         description,
-        storageKey: storageKey || `materials/${Date.now()}_${originalFilename}`,
+        storageKey,
         originalFilename,
         mimeType: mimeType || "application/pdf",
-        sizeBytes: sizeBytes || 1024 * 1024,
+        sizeBytes,
         visibility,
+        fileBase64,
       });
 
       res.status(201).json({
@@ -193,6 +204,30 @@ export class AcademicController {
         data: materials,
         meta: { total: materials.length },
       });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async downloadMaterial(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const id = req.params.id as string;
+      const universityId = req.user!.universityId;
+
+      const material = await materialsService.getMaterialById(id, universityId);
+      if (!material) {
+        res.status(404).json({
+          error: { code: "NOT_FOUND", message: "Material resource not found." },
+        });
+        return;
+      }
+
+      const fileData = await materialsService.getMaterialFile(material);
+
+      res.setHeader("Content-Type", fileData.mimeType);
+      res.setHeader("Content-Disposition", `inline; filename="${fileData.filename}"`);
+      res.setHeader("Content-Length", fileData.buffer.length);
+      res.send(fileData.buffer);
     } catch (err) {
       next(err);
     }
