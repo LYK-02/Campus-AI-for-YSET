@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Lock, Mail, Sparkles } from "lucide-react";
-import { apiRequest } from "../lib/api-client";
 import { useAuth } from "../context/auth-context";
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
-  const { checkAuth } = useAuth();
+  const { login } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,15 +19,10 @@ export const LoginPage: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const res = await apiRequest<{ user: { roles: string[] } }>("/auth/login", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
-      });
-
-      await checkAuth();
+      const user = await login({ email, password });
 
       // Route by role
-      const roles = res.user?.roles || ["STUDENT"];
+      const roles = user?.roles || ["STUDENT"];
       if (roles.includes("ADMIN")) {
         navigate("/admin/dashboard");
       } else if (roles.includes("FACULTY")) {
