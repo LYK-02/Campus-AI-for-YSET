@@ -78,7 +78,25 @@ export const AdminDashboard: React.FC = () => {
       </div>
 
       {/* Admin Modules Quick Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Link
+          to="/admin/courses"
+          className="bg-gradient-to-br from-white to-[#F0FDFA] p-6 rounded-2xl border-2 border-[#17A89B]/40 hover:border-[#17A89B] shadow-xs transition-all block"
+        >
+          <div className="flex items-center justify-between mb-3">
+            <div className="w-10 h-10 rounded-xl bg-[#17A89B]/15 text-[#17A89B] flex items-center justify-center">
+              <BookOpen className="w-5 h-5" />
+            </div>
+            <span className="text-[10px] font-bold uppercase bg-[#17A89B]/15 text-[#17A89B] px-2 py-0.5 rounded-full">
+              Auto-Schedule
+            </span>
+          </div>
+          <h3 className="text-base font-bold text-[#172033]">Course Visibility & Timetable</h3>
+          <p className="text-xs text-[#68758A] mt-1">
+            Publish/hide courses for students and trigger 1-click weekly academic schedule generation.
+          </p>
+        </Link>
+
         <Link
           to="/admin/users"
           className="bg-white p-6 rounded-2xl border border-[#E3E8F0] hover:border-[#315EAA] shadow-xs transition-colors block"
