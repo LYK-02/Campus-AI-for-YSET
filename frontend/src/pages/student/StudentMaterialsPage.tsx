@@ -13,6 +13,7 @@ export const StudentMaterialsPage: React.FC = () => {
   const [materials, setMaterials] = useState<Material[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [selectedCourseFilter, setSelectedCourseFilter] = useState<string>("ALL");
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
   const [toast, setToast] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   const showToast = (type: "success" | "error", text: string) => {
@@ -26,7 +27,7 @@ export const StudentMaterialsPage: React.FC = () => {
       const data = await materialsApi.getMaterials();
       setMaterials(data || []);
     } catch (err: any) {
-      showToast("error", err.message || "Failed to load learning resources");
+      showToast("error", err?.message || "Failed to load learning resources");
     } finally {
       setIsLoading(false);
     }
@@ -36,8 +37,16 @@ export const StudentMaterialsPage: React.FC = () => {
     loadData();
   }, []);
 
-  const handleDownloadMock = (mat: Material) => {
-    showToast("success", `Opening download stream for ${mat.originalFilename}...`);
+  const handleDownload = async (mat: Material) => {
+    setDownloadingId(mat.id);
+    try {
+      await materialsApi.downloadMaterial(mat.id, mat.originalFilename);
+      showToast("success", `Downloaded ${mat.originalFilename}`);
+    } catch (err: any) {
+      showToast("error", err?.message || "Failed to download PDF resource.");
+    } finally {
+      setDownloadingId(null);
+    }
   };
 
   const uniqueCourseCodes = Array.from(
@@ -84,7 +93,7 @@ export const StudentMaterialsPage: React.FC = () => {
         <div className="flex items-center gap-2 overflow-x-auto pb-1">
           <button
             onClick={() => setSelectedCourseFilter("ALL")}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
               selectedCourseFilter === "ALL"
                 ? "bg-[#142B4A] text-white shadow-xs"
                 : "bg-white border border-[#E3E8F0] text-slate-600 hover:bg-slate-50"
@@ -96,7 +105,7 @@ export const StudentMaterialsPage: React.FC = () => {
             <button
               key={code}
               onClick={() => setSelectedCourseFilter(code)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                 selectedCourseFilter === code
                   ? "bg-[#315EAA] text-white shadow-xs"
                   : "bg-white border border-[#E3E8F0] text-slate-600 hover:bg-slate-50"
@@ -140,8 +149,9 @@ export const StudentMaterialsPage: React.FC = () => {
                 </div>
                 <h2 className="text-base font-bold text-[#142B4A] leading-snug">{mat.title}</h2>
                 <p className="text-xs text-slate-600 line-clamp-2">{mat.description || "Lecture document."}</p>
-                <p className="text-[11px] font-mono text-slate-400 truncate">
-                  📄 {mat.originalFilename}
+                <p className="text-[11px] font-mono text-slate-400 truncate flex items-center gap-1.5">
+                  <FileText className="w-3.5 h-3.5 text-red-500 shrink-0" />
+                  <span>{mat.originalFilename}</span>
                 </p>
               </div>
 
@@ -150,11 +160,16 @@ export const StudentMaterialsPage: React.FC = () => {
                   {mat.owner?.name ? `By ${mat.owner.name}` : "Faculty Upload"}
                 </span>
                 <button
-                  onClick={() => handleDownloadMock(mat)}
+                  onClick={() => handleDownload(mat)}
+                  disabled={downloadingId === mat.id}
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#17A89B]/10 hover:bg-[#17A89B]/20 text-[#12887C] transition-colors cursor-pointer"
                 >
-                  <FileDown className="w-3.5 h-3.5" />
-                  <span>Download PDF</span>
+                  {downloadingId === mat.id ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <FileDown className="w-3.5 h-3.5" />
+                  )}
+                  <span>{downloadingId === mat.id ? "Downloading..." : "Download PDF"}</span>
                 </button>
               </div>
             </div>

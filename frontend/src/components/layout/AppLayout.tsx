@@ -54,8 +54,8 @@ export const AppLayout: React.FC = () => {
     navItems = [
       { label: "Workspace", path: "/faculty/dashboard", icon: LayoutDashboard },
       { label: "Assigned Courses", path: "/faculty/courses", icon: BookOpen },
-      { label: "Assignments", path: "/faculty/assignments", icon: CheckSquare },
-      { label: "Review Submissions", path: "/faculty/submissions", icon: FileText },
+      { label: "Assignments & Submissions", path: "/faculty/assignments", icon: CheckSquare },
+      { label: "Learning Materials", path: "/faculty/materials", icon: FileText },
       { label: "Announcements", path: "/faculty/announcements", icon: Bell },
       { label: "YSET AI Chat", path: "/ai", icon: Sparkles },
     ];

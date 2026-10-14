@@ -238,11 +238,33 @@ export const materialsApi = {
     mimeType?: string;
     sizeBytes?: number;
     storageKey?: string;
+    fileBase64?: string;
   }) =>
     apiRequest<Material>("/materials", {
       method: "POST",
       body: JSON.stringify(data),
     }),
+
+  downloadMaterial: async (id: string, filename: string) => {
+    const headers: Record<string, string> = {};
+    if (currentAccessToken) {
+      headers["Authorization"] = `Bearer ${currentAccessToken}`;
+    }
+    const res = await fetch(`${BASE_URL}/materials/${id}/download`, {
+      headers,
+      credentials: "include",
+    });
+    if (!res.ok) throw new Error("Failed to download resource");
+    const blob = await res.blob();
+    const blobUrl = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = blobUrl;
+    a.download = filename.endsWith(".pdf") ? filename : `${filename}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(blobUrl);
+    document.body.removeChild(a);
+  },
 
   deleteMaterial: (id: string) =>
     apiRequest<{ message: string }>(`/materials/${id}`, {
