@@ -73,8 +73,7 @@ course material only.
 
 ## 6. Authentication and institutional eligibility
 
--   Accepted domain: `yenepoy.edu.in` (exact domain; confirm with the
-    institution before launch).
+-   Accepted domain: `yenepoya.edu.in` (exact domain; confirmed official Yenepoya domain).
 -   Normalize email addresses by trimming whitespace and lowercasing
     before comparison.
 -   Validate the domain on the server for registration and login;

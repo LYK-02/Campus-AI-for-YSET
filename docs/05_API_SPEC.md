@@ -58,7 +58,7 @@ Request:
 ``` json
 {
   "name": "Example Student",
-  "email": "student@yenepoy.edu.in",
+  "email": "student@yenepoya.edu.in",
   "password": "user-supplied-password"
 }
 ```
@@ -80,7 +80,7 @@ Request:
 
 ``` json
 {
-  "email": "student@yenepoy.edu.in",
+  "email": "student@yenepoya.edu.in",
   "password": "user-supplied-password"
 }
 ```

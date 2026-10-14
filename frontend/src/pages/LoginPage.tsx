@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Lock, Mail, Sparkles } from "lucide-react";
-import { apiRequest } from "../lib/api-client";
 import { useAuth } from "../context/auth-context";
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
-  const { checkAuth } = useAuth();
+  const { login } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,15 +19,10 @@ export const LoginPage: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const res = await apiRequest<{ user: { roles: string[] } }>("/auth/login", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
-      });
-
-      await checkAuth();
+      const user = await login({ email, password });
 
       // Route by role
-      const roles = res.user?.roles || ["STUDENT"];
+      const roles = user?.roles || ["STUDENT"];
       if (roles.includes("ADMIN")) {
         navigate("/admin/dashboard");
       } else if (roles.includes("FACULTY")) {
@@ -76,11 +70,11 @@ export const LoginPage: React.FC = () => {
           <div className="space-y-3">
             <div className="flex items-center gap-3 text-xs text-slate-200">
               <div className="w-5 h-5 rounded-full bg-[#17A89B]/20 flex items-center justify-center text-[#17A89B]">✓</div>
-              <span>Secured institutional access via @yenepoy.edu.in</span>
+              <span>Secured institutional access via @yenepoya.edu.in</span>
             </div>
             <div className="flex items-center gap-3 text-xs text-slate-200">
               <div className="w-5 h-5 rounded-full bg-[#17A89B]/20 flex items-center justify-center text-[#17A89B]">✓</div>
-              <span>NVIDIA NIM Nemotron contextual academic reasoning</span>
+              <span>Contextual academic reasoning and study assistance</span>
             </div>
             <div className="flex items-center gap-3 text-xs text-slate-200">
               <div className="w-5 h-5 rounded-full bg-[#17A89B]/20 flex items-center justify-center text-[#17A89B]">✓</div>
@@ -128,7 +122,7 @@ export const LoginPage: React.FC = () => {
                 <input
                   type="email"
                   required
-                  placeholder="name@yenepoy.edu.in"
+                  placeholder="name@yenepoya.edu.in"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-10 pr-3.5 py-2.5 rounded-lg border border-[#E3E8F0] text-sm focus:outline-none focus:ring-2 focus:ring-[#315EAA]/30 focus:border-[#315EAA] transition-all bg-white"
@@ -183,7 +177,7 @@ export const LoginPage: React.FC = () => {
         </div>
 
         <div className="mt-6 text-center text-xs text-[#68758A]">
-          Use your authorized <span className="font-semibold text-[#142B4A]">@yenepoy.edu.in</span> account.
+          Use your authorized <span className="font-semibold text-[#142B4A]">@yenepoya.edu.in</span> account.
         </div>
       </div>
     </div>

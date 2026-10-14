@@ -7,7 +7,7 @@ Campus AI is a modern university management platform and AI-powered academic ass
 ## 🏛️ Project Overview
 
 - **Institution:** Yenepoya School of Technology (YSET)
-- **Domain:** `yenepoy.edu.in`
+- **Domain:** `yenepoya.edu.in`
 - **Roles:** `STUDENT`, `FACULTY`, `ADMIN`
 - **Architecture:** Modular monolith with vertical slices
 - **Stack:**

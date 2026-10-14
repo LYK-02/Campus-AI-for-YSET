@@ -165,7 +165,7 @@ export const AppLayout: React.FC = () => {
                 YSET Campus Portal
               </span>
               <span className="hidden md:inline-block text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full border border-slate-200">
-                yenepoy.edu.in
+                yenepoya.edu.in
               </span>
             </div>
           </div>

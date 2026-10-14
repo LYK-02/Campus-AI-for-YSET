@@ -35,7 +35,7 @@ Your actual project may differ. Do not move files merely to match this example.
 
 ### Tasks
 
-- Confirm the exact institutional email domain: `yenepoy.edu.in`.
+- Confirm the exact institutional email domain: `yenepoya.edu.in`.
 - Confirm whether email verification alone is sufficient or a student roster/invitation is required.
 - Decide between secure server-side sessions and short-lived access tokens with rotating refresh sessions.
 - Decide the AI provider and acceptable budget/quotas.

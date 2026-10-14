@@ -36,7 +36,7 @@ export const LandingPage: React.FC = () => {
       <main className="max-w-5xl mx-auto px-6 py-16 text-center">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#17A89B]/10 border border-[#17A89B]/20 text-[#17A89B] text-xs font-semibold mb-6">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Powered by NVIDIA NIM & Academic RAG</span>
+          <span>Powered by Academic RAG & Intelligent Retrieval</span>
         </div>
 
         <h2 className="text-4xl md:text-5xl font-extrabold text-[#172033] tracking-tight mb-6">
@@ -73,7 +73,7 @@ export const LandingPage: React.FC = () => {
             </div>
             <h3 className="font-bold text-base text-[#172033] mb-2">Institutional Scope</h3>
             <p className="text-xs text-[#68758A] leading-relaxed">
-              Strict domain enforcement on <code className="text-[#142B4A] font-semibold">@yenepoy.edu.in</code> ensuring authentic access for verified YSET community members.
+              Strict domain enforcement on <code className="text-[#142B4A] font-semibold">@yenepoya.edu.in</code> ensuring authentic access for verified YSET community members.
             </p>
           </div>
 
@@ -83,7 +83,7 @@ export const LandingPage: React.FC = () => {
             </div>
             <h3 className="font-bold text-base text-[#172033] mb-2">YSET AI Assistant</h3>
             <p className="text-xs text-[#68758A] leading-relaxed">
-              Context-grounded study help using NVIDIA NIM Nemotron with strict course and document authorization filters.
+              Context-grounded study help with strict course and document authorization filters.
             </p>
           </div>
 

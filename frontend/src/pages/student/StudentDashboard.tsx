@@ -1,11 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { BookOpen, CheckSquare, Sparkles, Bell, ArrowRight, Clock, FileText } from "lucide-react";
+import { BookOpen, CheckSquare, Sparkles, Bell, ArrowRight, Award, FileText } from "lucide-react";
 import { useAuth } from "../../context/auth-context";
+import { branches } from "../../data/branches";
 
 export const StudentDashboard: React.FC = () => {
   const { user } = useAuth();
   const studentName = user?.name || "Student";
+
+  const userBranch = branches.find((b) => b.id === user?.branchId) || branches[0];
+  const userSemester = user?.semester || 1;
+  const currentSemesterData =
+    userBranch.semesters.find((s) => s.semester === userSemester) || userBranch.semesters[0];
+  const enrolledSubjects = currentSemesterData?.subjects || [];
+  const totalCredits = enrolledSubjects.reduce((sum, s) => sum + s.credits, 0);
 
   return (
     <div className="space-y-6">
@@ -20,17 +28,26 @@ export const StudentDashboard: React.FC = () => {
             Good day, {studentName}
           </h1>
           <p className="text-xs text-[#68758A] mt-1">
-            Here's what's happening with your academics today at Yenepoya School of Technology.
+            {userBranch.name} · Semester {userSemester}
           </p>
         </div>
 
-        <Link
-          to="/ai"
-          className="inline-flex items-center gap-2 bg-[#17A89B] hover:bg-[#13897E] text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-xs transition-colors"
-        >
-          <Sparkles className="w-4 h-4" />
-          <span>Ask YSET AI</span>
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link
+            to="/student/courses"
+            className="inline-flex items-center gap-2 bg-[#142B4A] hover:bg-[#0F2038] text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-xs transition-colors"
+          >
+            <BookOpen className="w-4 h-4 text-[#17A89B]" />
+            <span>View Syllabus</span>
+          </Link>
+          <Link
+            to="/ai"
+            className="inline-flex items-center gap-2 bg-[#17A89B] hover:bg-[#13897E] text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-xs transition-colors"
+          >
+            <Sparkles className="w-4 h-4" />
+            <span>Ask YSET AI</span>
+          </Link>
+        </div>
       </div>
 
       {/* KPI Overview Cards */}
@@ -40,14 +57,24 @@ export const StudentDashboard: React.FC = () => {
             <BookOpen className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-xs text-[#68758A] font-medium">Enrolled Courses</p>
-            <h3 className="text-xl font-bold text-[#172033]">5</h3>
+            <p className="text-xs text-[#68758A] font-medium">Semester Courses</p>
+            <h3 className="text-xl font-bold text-[#172033]">{enrolledSubjects.length}</h3>
+          </div>
+        </div>
+
+        <div className="bg-white p-5 rounded-2xl border border-[#E3E8F0] shadow-xs flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-[#315EAA]/10 text-[#315EAA] flex items-center justify-center shrink-0">
+            <Award className="w-6 h-6" />
+          </div>
+          <div>
+            <p className="text-xs text-[#68758A] font-medium">Total Credits</p>
+            <h3 className="text-xl font-bold text-[#172033]">{totalCredits}</h3>
           </div>
         </div>
 
         <div className="bg-white p-5 rounded-2xl border border-[#E3E8F0] shadow-xs flex items-center gap-4">
           <div className="w-12 h-12 rounded-xl bg-[#D99019]/10 text-[#D99019] flex items-center justify-center shrink-0">
-            <Clock className="w-6 h-6" />
+            <CheckSquare className="w-6 h-6" />
           </div>
           <div>
             <p className="text-xs text-[#68758A] font-medium">Pending Tasks</p>
@@ -56,22 +83,12 @@ export const StudentDashboard: React.FC = () => {
         </div>
 
         <div className="bg-white p-5 rounded-2xl border border-[#E3E8F0] shadow-xs flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-[#315EAA]/10 text-[#315EAA] flex items-center justify-center shrink-0">
-            <CheckSquare className="w-6 h-6" />
-          </div>
-          <div>
-            <p className="text-xs text-[#68758A] font-medium">Assignments Due</p>
-            <h3 className="text-xl font-bold text-[#172033]">2</h3>
-          </div>
-        </div>
-
-        <div className="bg-white p-5 rounded-2xl border border-[#E3E8F0] shadow-xs flex items-center gap-4">
           <div className="w-12 h-12 rounded-xl bg-[#16845B]/10 text-[#16845B] flex items-center justify-center shrink-0">
             <FileText className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-xs text-[#68758A] font-medium">Study Materials</p>
-            <h3 className="text-xl font-bold text-[#172033]">18</h3>
+            <p className="text-xs text-[#68758A] font-medium">Branch Scheme</p>
+            <h3 className="text-sm font-bold text-[#172033]">{userBranch.shortName}</h3>
           </div>
         </div>
       </div>
@@ -89,26 +106,27 @@ export const StudentDashboard: React.FC = () => {
             </div>
 
             <div className="space-y-3">
-              {[
-                { code: "CS-301", name: "Data Structures & Algorithms", faculty: "Dr. Ananya Rao", term: "Semester 5" },
-                { code: "CS-304", name: "Operating Systems & Concurrency", faculty: "Prof. Vikram Shetty", term: "Semester 5" },
-                { code: "AI-302", name: "Applied Machine Learning", faculty: "Dr. K. Srinivas", term: "Semester 5" },
-              ].map((c) => (
-                <div key={c.code} className="p-4 rounded-xl border border-[#E3E8F0] hover:border-[#315EAA]/40 transition-colors flex items-center justify-between">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-mono font-bold text-[#142B4A] bg-[#142B4A]/10 px-2 py-0.5 rounded">
-                        {c.code}
-                      </span>
-                      <h4 className="text-sm font-semibold text-[#172033]">{c.name}</h4>
+              {enrolledSubjects.map((sub, idx) => (
+                <div
+                  key={idx}
+                  className="p-4 rounded-xl border border-[#E3E8F0] hover:border-[#315EAA]/40 transition-colors flex items-center justify-between"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs font-mono font-bold text-[#142B4A] bg-[#142B4A]/10 px-2 py-0.5 rounded">
+                      {sub.credits} {sub.credits === 1 ? "CR" : "CRS"}
+                    </span>
+                    <div>
+                      <h4 className="text-sm font-semibold text-[#172033]">{sub.name}</h4>
+                      <p className="text-xs text-[#68758A] mt-0.5">
+                        {userBranch.shortName} · Semester {userSemester}
+                      </p>
                     </div>
-                    <p className="text-xs text-[#68758A] mt-1">{c.faculty} · {c.term}</p>
                   </div>
                   <Link
-                    to={`/student/courses/${c.code}`}
+                    to="/student/courses"
                     className="text-xs font-semibold text-[#315EAA] hover:bg-[#315EAA]/10 px-3 py-1.5 rounded-lg transition-colors"
                   >
-                    Open Course
+                    View Syllabus
                   </Link>
                 </div>
               ))}
@@ -138,7 +156,7 @@ export const StudentDashboard: React.FC = () => {
           <div className="bg-linear-to-br from-[#142B4A] to-[#1D3B63] p-6 rounded-2xl text-white shadow-xs">
             <div className="flex items-center gap-2 text-[#17A89B] text-xs font-semibold mb-3">
               <Sparkles className="w-4 h-4" />
-              <span>YSET AI · NVIDIA NIM</span>
+              <span>YSET AI Assistant</span>
             </div>
             <h3 className="text-lg font-bold mb-2">Need Help Studying?</h3>
             <p className="text-xs text-slate-300 leading-relaxed mb-6">
