@@ -192,7 +192,7 @@ export const AnnouncementsPage: React.FC = () => {
                 {canPost && (
                   <button
                     onClick={() => handleDelete(ann.id, ann.title)}
-                    className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                    className="p-1.5 text-slate-500 hover:text-red-700 hover:bg-red-100/70 rounded-lg transition-colors cursor-pointer"
                     title="Delete announcement"
                   >
                     <Trash2 className="w-4 h-4" />
