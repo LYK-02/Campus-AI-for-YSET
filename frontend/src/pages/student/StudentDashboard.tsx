@@ -138,7 +138,7 @@ export const StudentDashboard: React.FC = () => {
           <div className="bg-linear-to-br from-[#142B4A] to-[#1D3B63] p-6 rounded-2xl text-white shadow-xs">
             <div className="flex items-center gap-2 text-[#17A89B] text-xs font-semibold mb-3">
               <Sparkles className="w-4 h-4" />
-              <span>YSET AI · NVIDIA NIM</span>
+              <span>YSET AI Assistant</span>
             </div>
             <h3 className="text-lg font-bold mb-2">Need Help Studying?</h3>
             <p className="text-xs text-slate-300 leading-relaxed mb-6">

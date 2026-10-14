@@ -80,7 +80,7 @@ export const LoginPage: React.FC = () => {
             </div>
             <div className="flex items-center gap-3 text-xs text-slate-200">
               <div className="w-5 h-5 rounded-full bg-[#17A89B]/20 flex items-center justify-center text-[#17A89B]">✓</div>
-              <span>NVIDIA NIM Nemotron contextual academic reasoning</span>
+              <span>Contextual academic reasoning and study assistance</span>
             </div>
             <div className="flex items-center gap-3 text-xs text-slate-200">
               <div className="w-5 h-5 rounded-full bg-[#17A89B]/20 flex items-center justify-center text-[#17A89B]">✓</div>

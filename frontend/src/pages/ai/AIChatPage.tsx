@@ -23,7 +23,7 @@ export const AIChatPage: React.FC = () => {
       id: "welcome-msg",
       role: "assistant",
       content:
-        "Hello! I am your **YSET Assistant** at Yenepoya School of Technology, powered by NVIDIA NIM Nemotron.\n\nI can explain engineering concepts, answer questions about your assigned course materials, summarize uploaded notes, or retrieve official YSET institutional knowledge.",
+        "Hello! I am your **YSET Assistant** at Yenepoya School of Technology.\n\nI can explain engineering concepts, answer questions about your assigned course materials, summarize uploaded notes, or retrieve official YSET institutional knowledge.",
       sources: [
         {
           title: "YSET Academic Guide 2026",
@@ -60,7 +60,7 @@ export const AIChatPage: React.FC = () => {
       const assistantMsg: ChatMessage = {
         id: `asst-${Date.now()}`,
         role: "assistant",
-        content: `I received your question in **${mode.replace("_", " ")}** mode:\n\n> "${currentPrompt}"\n\nDuring Phase 5/6, this interface connects directly to your NVIDIA NIM Nemotron model backend with permission-scoped vector retrieval.`,
+        content: `I received your question in **${mode.replace("_", " ")}** mode:\n\n> "${currentPrompt}"\n\nDuring Phase 5/6, this interface connects directly to your AI model backend with permission-scoped vector retrieval.`,
         sources:
           mode === "MY_COURSES"
             ? [{ title: "CS-304 Operating Systems Lecture 4", page: 12, materialId: "mat-os-04" }]
@@ -88,7 +88,7 @@ export const AIChatPage: React.FC = () => {
           </div>
           <div>
             <h2 className="text-xs font-bold text-[#172033] leading-none">YSET Assistant</h2>
-            <p className="text-[10px] text-[#68758A] mt-0.5">NVIDIA NIM Nemotron · Scoped Retrieval</p>
+            <p className="text-[10px] text-[#68758A] mt-0.5">Academic AI · Scoped Retrieval</p>
           </div>
         </div>
 
@@ -155,7 +155,7 @@ export const AIChatPage: React.FC = () => {
               {/* Message Footer Controls */}
               {msg.role === "assistant" && (
                 <div className="mt-3 flex items-center justify-between text-xs text-slate-400 pt-2 border-t border-slate-100">
-                  <span className="text-[10px]">NVIDIA NIM Nemotron</span>
+                  <span className="text-[10px]">YSET AI Assistant</span>
                   <button
                     onClick={() => copyToClipboard(msg.content, msg.id)}
                     className="p-1 hover:text-slate-700 flex items-center gap-1"
