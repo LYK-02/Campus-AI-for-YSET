@@ -40,6 +40,9 @@ materialsRouter.post(
   requireRoles(Role.FACULTY, Role.ADMIN),
   (req, res, next) => academicController.createMaterial(req, res, next)
 );
+materialsRouter.get("/:id/download", authenticate, (req, res, next) =>
+  academicController.downloadMaterial(req, res, next)
+);
 materialsRouter.delete(
   "/:id",
   authenticate,
