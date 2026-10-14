@@ -246,7 +246,7 @@ export const StudentDashboard: React.FC = () => {
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] font-bold uppercase tracking-wider text-[#315EAA] bg-[#315EAA]/10 px-2 py-0.5 rounded">
-                        {notice.department || "YSET University Circular"}
+                        {notice.course?.code || "YSET University Circular"}
                       </span>
                       <span className="text-[11px] text-slate-400">
                         {new Date(notice.createdAt).toLocaleDateString()}
