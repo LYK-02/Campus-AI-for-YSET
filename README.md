@@ -1,63 +1,52 @@
-# Campus AI --- Project Documentation Pack
+# Campus AI — Yenepoya School of Technology (YSET)
 
-Campus AI is a university management web application with role-based
-Admin, Faculty, and Student experiences and an AI-powered academic
-assistant. This documentation pack defines the product, architecture,
-database, APIs, security, engineering standards, delivery phases,
-testing, and deployment.
+Campus AI is a modern university management platform and AI-powered academic assistant designed specifically for **Yenepoya School of Technology (YSET)**.
 
-## Documents
+---
 
--   `01_PRD.md` --- Product requirements, personas, workflows, scope,
-    acceptance criteria, and success metrics.
--   `02_TRD.md` --- Technical architecture, stack, module boundaries,
-    integration strategy, and non-functional requirements.
--   `03_DATABASE_SCHEMA.md` --- PostgreSQL/Prisma data model,
-    relationships, constraints, indexes, and migration rules.
--   `04_AUTH_SECURITY.md` --- Institutional email policy,
-    authentication, authorization, threat controls, privacy, and
-    production security.
--   `05_API_SPEC.md` --- API conventions, endpoint inventory,
-    request/response examples, errors, and versioning.
--   `06_ENGINEERING_RULES.md` --- Coding conventions, repository
-    structure, branching, testing, observability, and extensibility
-    rules.
--   `07_AI_ASSISTANT.md` --- Chatbot behavior, document ingestion, RAG
-    pipeline, source citations, and AI safety rules.
--   `08_ROADMAP.md` --- Detailed delivery phases, dependencies,
-    milestones, and definition of done.
--   `09_TESTING_DEPLOYMENT.md` --- Test strategy, release checklist,
-    deployment, backups, monitoring, and incident response.
+## 🏛️ Project Overview
 
-## Product decisions (initial defaults)
+- **Institution:** Yenepoya School of Technology (YSET)
+- **Domain:** `yenepoy.edu.in`
+- **Roles:** `STUDENT`, `FACULTY`, `ADMIN`
+- **Architecture:** Modular monolith with vertical slices
+- **Stack:**
+  - **Frontend:** React + Vite + TypeScript + Tailwind CSS (YSET design tokens)
+  - **Backend:** Node.js + Express + TypeScript + Prisma ORM + PostgreSQL
+  - **AI Engine:** NVIDIA NIM (Nemotron 3 Ultra / Llama-3.1-Nemotron) adapter
 
--   Institutional email domain: `yenepoy.edu.in`.
--   Roles: `ADMIN`, `FACULTY`, `STUDENT`.
--   Suggested stack: React + Vite + TypeScript + Tailwind CSS; Node.js +
-    Express + TypeScript; PostgreSQL + Prisma; private object storage;
-    an LLM provider behind a server-side adapter.
--   Authentication: use a secure session-cookie approach or short-lived
-    access JWTs with rotating, revocable refresh sessions. Choose one
-    design and implement it consistently.
--   Initial release: one institution, with `universityId`/tenant
-    boundaries designed into data access so multi-institution support
-    can be added safely later.
--   Student self-registration: students only. Faculty and admins are
-    provisioned through an authorized invitation/admin process.
--   AI answers must not invent official university facts. Use approved
-    data and citations for university-specific answers.
+---
 
-## How to use this pack
+## 📁 Repository Structure
 
-Treat these documents as the baseline contract for implementation.
-Record any change to a product or architecture decision in an
-Architecture Decision Record (ADR), update the relevant document, and
-link the change in the pull request. Items marked "decision needed" must
-be resolved before the related feature ships.
+```text
+├── backend/          # Express + TypeScript + Prisma API
+├── frontend/         # React + Vite + TypeScript UI
+├── docs/             # Complete specification & architecture documentation pack
+├── .gitignore
+├── memory.md         # Persistent project status & phase progress tracker
+└── README.md
+```
 
-## Important disclaimer
+---
 
-This is an implementation blueprint, not a security certification or
-legal opinion. Before production use, confirm the institution's actual
-email domains, data retention rules, privacy requirements, AI-provider
-terms, and approval process with the institution.
+## 📚 Documentation Pack
+
+For full technical specifications, architecture blueprints, security mandates, and API definitions, consult the [docs/](file:///d:/Workspace/work/booooooooooooom/docs) directory:
+
+- [README.md](file:///d:/Workspace/work/booooooooooooom/docs/README.md) - Documentation Pack Index
+- [01_PRD.md](file:///d:/Workspace/work/booooooooooooom/docs/01_PRD.md) - Product Requirements Document
+- [02_TRD.md](file:///d:/Workspace/work/booooooooooooom/docs/02_TRD.md) - Technical Requirements Document
+- [03_DATABASE_SCHEMA.md](file:///d:/Workspace/work/booooooooooooom/docs/03_DATABASE_SCHEMA.md) - Database Schema & Data Rules
+- [04_AUTH_SECURITY.md](file:///d:/Workspace/work/booooooooooooom/docs/04_AUTH_SECURITY.md) - Auth, Authorization & Security Baseline
+- [05_API_SPEC.md](file:///d:/Workspace/work/booooooooooooom/docs/05_API_SPEC.md) - API Specification
+- [06_ENGINEERING_RULES.md](file:///d:/Workspace/work/booooooooooooom/docs/06_ENGINEERING_RULES.md) - Engineering Standards & Conventions
+- [07_AI_ASSISTANT.md](file:///d:/Workspace/work/booooooooooooom/docs/07_AI_ASSISTANT.md) - AI Assistant & RAG Pipeline
+- [08_ROADMAP.md](file:///d:/Workspace/work/booooooooooooom/docs/08_ROADMAP.md) - Detailed Delivery Roadmap
+- [09_TESTING_DEPLOYMENT.md](file:///d:/Workspace/work/booooooooooooom/docs/09_TESTING_DEPLOYMENT.md) - Testing & Deployment Operations
+- [APP_FLOW.md](file:///d:/Workspace/work/booooooooooooom/docs/APP_FLOW.md) - Application Flow & Navigation
+- [ARCHITECTURE.md](file:///d:/Workspace/work/booooooooooooom/docs/ARCHITECTURE.md) - System Architecture
+- [DELIVERY_ROADMAP.md](file:///d:/Workspace/work/booooooooooooom/docs/DELIVERY_ROADMAP.md) - Delivery Roadmap
+- [DESIGN.md](file:///d:/Workspace/work/booooooooooooom/docs/DESIGN.md) - UI/UX Design Specification & Tokens
+- [PRODUCTION_CODING_RULES.md](file:///d:/Workspace/work/booooooooooooom/docs/PRODUCTION_CODING_RULES.md) - Production Coding Rules
+- [PRODUCTION_SECURITY.md](file:///d:/Workspace/work/booooooooooooom/docs/PRODUCTION_SECURITY.md) - Production Security Requirements
