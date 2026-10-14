@@ -1,7 +1,7 @@
 # Campus AI — Project Memory & Status Tracker
 
 **Institution:** Yenepoya School of Technology (YSET)  
-**Accepted Domain:** `yenepoy.edu.in`  
+**Accepted Domain:** `yenepoya.edu.in`  
 **Current Phase:** Phase 1 Complete → Ready for Phase 2 (Authentication & Access Control)  
 **Last Updated:** 2026-10-14  
 
@@ -13,7 +13,7 @@
 |---|---|---|
 | **Architecture** | Modular monolith with vertical slices; backend and frontend decoupled. | `docs/DELIVERY_ROADMAP.md` |
 | **Authentication** | Short-lived access JWT (15m) + rotating, revocable refresh tokens in `HttpOnly`, `Secure`, `SameSite=Lax` cookies. Stored hashed in `AuthSession` with reuse detection. | `docs/04_AUTH_SECURITY.md` |
-| **Domain Policy** | Exact suffix `@yenepoy.edu.in` enforced on the server. Self-registration is strictly for `STUDENT` role; faculty and admins are provisioned/invited. | `docs/01_PRD.md` |
+| **Domain Policy** | Exact suffix `@yenepoya.edu.in` enforced on the server. Self-registration is strictly for `STUDENT` role with mandatory Roll ID; faculty and admins are provisioned/invited. | `docs/01_PRD.md` |
 | **AI Engine Adapter** | NVIDIA NIM (Nemotron 3 Ultra / `nvidia/llama-3.1-nemotron-70b-instruct`) using OpenAI-compatible REST adapter (`https://integrate.api.nvidia.com/v1`). | `docs/07_AI_ASSISTANT.md` |
 | **Database & ORM** | PostgreSQL (running locally on port 5432) with Prisma ORM v6. | `docs/03_DATABASE_SCHEMA.md` |
 | **Frontend Design** | React + Vite + TypeScript + Tailwind CSS v4 with YSET brand design tokens. | `docs/DESIGN.md` |
@@ -62,7 +62,7 @@
 - **Core Views**:
   - `LandingPage.tsx`: Institutional portal overview with feature cards and action CTAs.
   - `LoginPage.tsx`: Split-screen branded login matching `docs/DESIGN.md` §4.1.
-  - `RegisterPage.tsx`: Student self-registration with `@yenepoy.edu.in` domain check matching `docs/DESIGN.md` §4.2.
+  - `RegisterPage.tsx`: Student self-registration with `@yenepoya.edu.in` domain check and mandatory Roll ID. Branch and semester course enrollment are assigned post-verification by the administrator.
   - `StudentDashboard.tsx`: Enrolled courses, task deadlines, and AI study cards.
   - `FacultyDashboard.tsx`: Course assignments, submission review queue, and quick actions.
   - `AdminDashboard.tsx`: Institutional overview, user directory, knowledge base, and audit logs.
@@ -74,7 +74,6 @@
   - Added official curriculum data for 4 B.Tech CSE branches across 8 semesters (`cse-aift`, `cse-aiml`, `cse-cs`, `cse-ds`) in `frontend/src/data/branches.ts` and `backend/src/data/branches.ts`.
   - Added interactive syllabus browser in `frontend/src/pages/student/CurriculumPage.tsx` with branch switcher, semester tabs (1–8), credit counts, and official PDF links.
   - Connected `StudentDashboard.tsx` to dynamically display the student's active branch, semester subjects, and credit weightage.
-  - Added branch and semester selectors to `RegisterPage.tsx`.
 - **Validation**: Full build passed (`npm run build` -> 0 errors), dev server live test on port 5173 confirmed (HTTP 200).
 
 ---
@@ -82,7 +81,7 @@
 ## 3. Immediate Next Phase: Phase 2 (Authentication & Access Control)
 
 1. **Backend Auth Implementation**:
-   - `POST /api/v1/auth/register`: Student signup with exact `@yenepoy.edu.in` check, Argon2id/bcrypt hashing, single-use verification token creation.
+   - `POST /api/v1/auth/register`: Student signup with exact `@yenepoya.edu.in` check, mandatory `studentId`, Argon2id/bcrypt hashing, single-use verification token creation.
    - `POST /api/v1/auth/verify-email`: Token consumption and account activation.
    - `POST /api/v1/auth/login`: Credential validation, issuing 15-minute access JWT and 7-day rotating refresh token in `HttpOnly` cookie, recording `AuthSession`.
    - `GET /api/v1/auth/me`: Authenticated user profile and role memberships.
