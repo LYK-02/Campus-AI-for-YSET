@@ -116,7 +116,7 @@ Formatting and linting must run in CI; do not rely on developers remembering to 
 
 ## 8. Authentication and authorization integration
 
-- Only students may self-register, and the server must enforce the exact allowed domain `yenepoy.edu.in` after normalizing and validating the email address.
+- Only students may self-register, and the server must enforce the exact allowed domain `yenepoya.edu.in` after normalizing and validating the email address.
 - Faculty and admin accounts must be provisioned through an approved, auditable process; public signup must never let users choose these roles.
 - Verify email ownership before activating student accounts.
 - Use the centralized authentication and authorization middleware on protected routes.
