@@ -8,6 +8,8 @@ import {
   Bell,
   ArrowRight,
   GraduationCap,
+  ShieldCheck,
+  Sparkles,
 } from "lucide-react";
 import { useAuth } from "../../context/auth-context";
 
