@@ -133,7 +133,7 @@ Fields:
 - Confirm password.
 
 Requirements:
-- Clearly state that student self-registration requires an `@yenepoy.edu.in` email address.
+- Clearly state that student self-registration requires an `@yenepoya.edu.in` email address.
 - Show inline validation and understandable error messages.
 - Include password visibility controls and a link to login.
 - Show a separate email-verification state after signup.
@@ -493,7 +493,7 @@ Use realistic, varied content rather than repeated placeholder text. Keep tables
 
 ## 7. Security and privacy UX requirements
 
-- Student registration must visibly explain the `@yenepoy.edu.in` requirement.
+- Student registration must visibly explain the `@yenepoya.edu.in` requirement.
 - Do not offer a role selector during public signup.
 - Display only data the signed-in user is permitted to access.
 - Do not show private drafts or another user's private documents.
