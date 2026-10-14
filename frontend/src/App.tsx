@@ -11,6 +11,8 @@ import { AdminDashboard } from "./pages/admin/AdminDashboard";
 import { AIChatPage } from "./pages/ai/AIChatPage";
 import { CurriculumPage } from "./pages/student/CurriculumPage";
 import { VerifyEmailPage } from "./pages/VerifyEmailPage";
+import { AdminCoursesPage } from "./pages/admin/AdminCoursesPage";
+import { TimetablePage } from "./pages/student/TimetablePage";
 
 export const App: React.FC = () => {
   return (
@@ -25,13 +27,23 @@ export const App: React.FC = () => {
 
           {/* App Shell with Role Workspaces */}
           <Route element={<AppLayout />}>
+            {/* Student workspace */}
             <Route path="/student/dashboard" element={<StudentDashboard />} />
             <Route path="/student/courses" element={<CurriculumPage />} />
+            <Route path="/student/timetable" element={<TimetablePage />} />
             <Route path="/student/*" element={<StudentDashboard />} />
+
+            {/* Faculty workspace */}
             <Route path="/faculty/dashboard" element={<FacultyDashboard />} />
             <Route path="/faculty/*" element={<FacultyDashboard />} />
+
+            {/* Admin workspace */}
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/courses" element={<AdminCoursesPage />} />
+            <Route path="/admin/timetable" element={<AdminCoursesPage />} />
             <Route path="/admin/*" element={<AdminDashboard />} />
+
+            {/* AI Assistant */}
             <Route path="/ai" element={<AIChatPage />} />
             <Route path="/ai/*" element={<AIChatPage />} />
           </Route>

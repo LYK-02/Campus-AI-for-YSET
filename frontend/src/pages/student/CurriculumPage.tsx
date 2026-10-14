@@ -1,15 +1,49 @@
-import React, { useState } from "react";
-import { BookOpen, ExternalLink, Award, FileText, CheckCircle2 } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { ExternalLink, Award, FileText, CheckCircle2, Loader2 } from "lucide-react";
 import { branches } from "../../data/branches";
+import { coursesApi } from "../../lib/api-client";
+import type { Course } from "../../types";
 
 export const CurriculumPage: React.FC = () => {
   const [selectedBranchId, setSelectedBranchId] = useState<string>("cse-aift");
   const [selectedSemester, setSelectedSemester] = useState<number>(1);
+  const [publishedCourses, setPublishedCourses] = useState<Course[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const currentBranch = branches.find((b) => b.id === selectedBranchId) || branches[0];
   const semesterData = currentBranch.semesters.find((s) => s.semester === selectedSemester);
-  const subjects = semesterData?.subjects || [];
-  const totalSemesterCredits = subjects.reduce((sum, s) => sum + s.credits, 0);
+  const fallbackSubjects = semesterData?.subjects || [];
+
+  useEffect(() => {
+    let isMounted = true;
+    setIsLoading(true);
+
+    coursesApi
+      .getCourses(selectedBranchId, selectedSemester)
+      .then((data) => {
+        if (isMounted) {
+          setPublishedCourses(data || []);
+          setIsLoading(false);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setPublishedCourses([]);
+          setIsLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedBranchId, selectedSemester]);
+
+  // Use published courses if available, otherwise fallback
+  const displaySubjects = publishedCourses.length > 0
+    ? publishedCourses.map((c) => ({ code: c.code, name: c.name, credits: c.credits }))
+    : fallbackSubjects.map((s, idx) => ({ code: `CSE-${selectedSemester}0${idx + 1}`, name: s.name, credits: s.credits }));
+
+  const totalSemesterCredits = displaySubjects.reduce((sum, s) => sum + s.credits, 0);
 
   return (
     <div className="space-y-6">
@@ -124,29 +158,40 @@ export const CurriculumPage: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E3E8F0]">
-              {subjects.map((sub, index) => (
-                <tr key={index} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="py-3.5 px-4 font-mono text-slate-400">{index + 1}</td>
-                  <td className="py-3.5 px-4">
-                    <div className="flex items-center gap-2.5">
-                      <BookOpen className="w-4 h-4 text-[#315EAA] shrink-0" />
-                      <span className="font-semibold text-[#172033] text-sm">
-                        {sub.name}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="py-3.5 px-4 text-center">
-                    <span className="inline-block px-2.5 py-1 rounded-md bg-[#315EAA]/10 text-[#315EAA] font-bold font-mono">
-                      {sub.credits} {sub.credits === 1 ? "Credit" : "Credits"}
-                    </span>
-                  </td>
-                  <td className="py-3.5 px-4 text-right">
-                    <span className="text-[11px] text-slate-500 font-medium">
-                      {sub.credits >= 4 ? "Core Course" : sub.credits === 1 ? "Lab / Skill" : "Departmental"}
-                    </span>
+              {isLoading ? (
+                <tr>
+                  <td colSpan={4} className="py-8 text-center text-slate-500">
+                    <Loader2 className="w-5 h-5 animate-spin text-[#315EAA] mx-auto mb-2" />
+                    <span>Loading verified curriculum courses...</span>
                   </td>
                 </tr>
-              ))}
+              ) : (
+                displaySubjects.map((sub, index) => (
+                  <tr key={index} className="hover:bg-slate-50/80 transition-colors">
+                    <td className="py-3.5 px-4 font-mono text-slate-400">{index + 1}</td>
+                    <td className="py-3.5 px-4">
+                      <div className="flex items-center gap-2.5">
+                        <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-[#315EAA]/10 text-[#315EAA]">
+                          {sub.code}
+                        </span>
+                        <span className="font-semibold text-[#172033] text-sm">
+                          {sub.name}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="py-3.5 px-4 text-center">
+                      <span className="inline-block px-2.5 py-1 rounded-md bg-[#315EAA]/10 text-[#315EAA] font-bold font-mono">
+                        {sub.credits} {sub.credits === 1 ? "Credit" : "Credits"}
+                      </span>
+                    </td>
+                    <td className="py-3.5 px-4 text-right">
+                      <span className="text-[11px] text-slate-500 font-medium">
+                        {sub.credits >= 4 ? "Core Course" : sub.credits === 1 ? "Lab / Skill" : "Departmental"}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

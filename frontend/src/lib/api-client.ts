@@ -149,3 +149,40 @@ export async function apiRequest<T = any>(endpoint: string, options: RequestOpti
 
   return (data.data !== undefined ? data.data : data) as T;
 }
+
+// ----------------------------------------------------------------------
+// Course & Timetable API Helpers
+// ----------------------------------------------------------------------
+import type { Course, TimetableSlot } from "../types";
+
+export const coursesApi = {
+  getCourses: (branchId = "cse-aift", semester = 1) =>
+    apiRequest<Course[]>("/courses", {
+      params: { branchId, semester },
+    }),
+
+  setVisibility: (courseId: string, isPublished: boolean) =>
+    apiRequest<{ data: Course; message: string }>(`/courses/${courseId}/visibility`, {
+      method: "PATCH",
+      body: JSON.stringify({ isPublished }),
+    }),
+};
+
+export const timetableApi = {
+  getTimetable: (branchId = "cse-aift", semester = 1) =>
+    apiRequest<TimetableSlot[]>("/timetable", {
+      params: { branchId, semester },
+    }),
+
+  generateTimetable: (branchId = "cse-aift", semester = 1) =>
+    apiRequest<TimetableSlot[]>("/timetable/generate", {
+      method: "POST",
+      body: JSON.stringify({ branchId, semester }),
+    }),
+
+  clearTimetable: (branchId = "cse-aift", semester = 1) =>
+    apiRequest<{ message: string }>("/timetable", {
+      method: "DELETE",
+      body: JSON.stringify({ branchId, semester }),
+    }),
+};

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { BookOpen, CheckSquare, Sparkles, Bell, ArrowRight, Award, FileText } from "lucide-react";
+import { BookOpen, CheckSquare, Sparkles, Bell, ArrowRight, Award, FileText, Calendar } from "lucide-react";
 import { useAuth } from "../../context/auth-context";
 import { branches } from "../../data/branches";
 
@@ -33,6 +33,13 @@ export const StudentDashboard: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-3">
+          <Link
+            to="/student/timetable"
+            className="inline-flex items-center gap-2 bg-[#F6F8FC] hover:bg-slate-200 text-[#142B4A] text-xs font-semibold px-4 py-2.5 rounded-xl border border-[#CBD5E1] transition-colors"
+          >
+            <Calendar className="w-4 h-4 text-[#315EAA]" />
+            <span>My Timetable</span>
+          </Link>
           <Link
             to="/student/courses"
             className="inline-flex items-center gap-2 bg-[#142B4A] hover:bg-[#0F2038] text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-xs transition-colors"

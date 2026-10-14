@@ -66,11 +66,12 @@ model University {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  users         User[]
-  departments   Department[]
-  courses       Course[]
-  announcements Announcement[]
-  auditLogs     AuditLog[]
+  users          User[]
+  departments    Department[]
+  courses        Course[]
+  timetableSlots TimetableSlot[]
+  announcements  Announcement[]
+  auditLogs      AuditLog[]
 }
 
 model User {
@@ -92,6 +93,7 @@ model User {
   passwordResetTokens PasswordResetToken[]
   enrollments         Enrollment[]
   teachingAssignments TeachingAssignment[]
+  timetableSlots      TimetableSlot[]
   uploadedMaterials   Material[]
   chats               Chat[]
   submissions         Submission[]
@@ -184,6 +186,8 @@ model Course {
   description  String?
   credits      Int?
   semester     String?
+  branchId     String?
+  isPublished  Boolean  @default(true)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -191,12 +195,41 @@ model Course {
   department          Department           @relation(fields: [departmentId], references: [id], onDelete: Cascade)
   enrollments         Enrollment[]
   teachingAssignments TeachingAssignment[]
+  timetableSlots      TimetableSlot[]
   materials           Material[]
   assignments         Assignment[]
   announcements       Announcement[]
 
   @@unique([universityId, code])
   @@index([universityId, departmentId])
+  @@index([branchId, semester])
+  @@index([isPublished])
+}
+
+model TimetableSlot {
+  id           String   @id @default(cuid())
+  universityId String
+  branchId     String
+  semester     Int
+  dayOfWeek    String
+  periodNumber Int
+  startTime    String
+  endTime      String
+  room         String
+  courseId     String
+  facultyName  String?
+  facultyId    String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  university University @relation(fields: [universityId], references: [id], onDelete: Cascade)
+  course     Course     @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  faculty    User?      @relation(fields: [facultyId], references: [id], onDelete: SetNull)
+
+  @@unique([universityId, branchId, semester, dayOfWeek, periodNumber])
+  @@index([universityId, branchId, semester])
+  @@index([courseId])
+  @@index([facultyId])
 }
 
 model Enrollment {
