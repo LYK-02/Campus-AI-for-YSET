@@ -65,12 +65,22 @@ async function main() {
               name: sub.name,
               credits: sub.credits,
               semester: `Semester ${sem.semester}`,
+              branchId: cseAift.id,
+              isPublished: true,
+            },
+          });
+        } else {
+          await prisma.course.update({
+            where: { id: existing.id },
+            data: {
+              branchId: cseAift.id,
+              isPublished: true,
             },
           });
         }
       }
     }
-    console.log("✅ Seeded initial curriculum courses for Semester 1 & 2");
+    console.log("✅ Seeded/Updated curriculum courses for Semester 1 & 2 with branchId");
   }
 
   // 4. Default Super Admin
